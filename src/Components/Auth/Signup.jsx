@@ -118,7 +118,7 @@ const Signup = () => {
           setIsLoading(false)
 
           // redirecting user to profile on successful signup
-          navigate('/profile')
+          navigate('/user/podcasts')
           
       } catch (error) {
         console.log(error);

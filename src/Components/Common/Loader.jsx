@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Loader = () => {
+const Loader = ({classess}) => {
   return (
-    <span className="loader"></span>
+    <span className='loader'></span>
   )
 }
 

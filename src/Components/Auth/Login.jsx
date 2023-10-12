@@ -61,19 +61,22 @@ const handleSubmit = (e) => {
 
     try {
 
-      // Creating sers account
+      
+      // Signing in with inbuilt signin firebase hook
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
           password
         )
-        const user = userCredential.user;          
+        const user = userCredential.user;     
+        
+        console.log(user);
         
         // Saving user details
         const userDoc = await getDoc(doc(db, 'users', user.uid))
+        console.log(userDoc);
         const userData = userDoc.data();
         console.log(userData)
-        
         
         dispatch(setUser({
           name: userData.name,
@@ -83,7 +86,7 @@ const handleSubmit = (e) => {
         setIsLoading(false)
 
         // redirecting user to profile on successful signup
-        navigate('/profile')
+        navigate('/user/podcasts')
         
     } catch (error) {
 
@@ -153,7 +156,7 @@ const handleSubmit = (e) => {
       <CustomeBtn 
       btnText={'Login'}
       type={'submit'}
-      isLoading={isLoading}
+      disabled={isLoading}
       />
       </form>
       <p>Don't have an account? <NavLink to={'/'} className={'text-teal-400 font-medium underline'}>Signup</NavLink></p>

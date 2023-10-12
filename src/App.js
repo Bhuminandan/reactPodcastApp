@@ -1,9 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Auth from './Components/Auth/Auth';
-import Signup from './Components/Auth/Signup';
 import Login from './Components/Auth/Login';
-import Profile from './Components/Profile';
+import Profile from './Components/User/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -13,6 +12,11 @@ import { db } from './firebase'
 import { useDispatch } from 'react-redux'
 import { setUser } from './slices/userSlice'
 import { onSnapshot } from 'firebase/firestore';
+import PrivateRoutes from './Components/User/PrivateRoutes';
+import CreatePodcast from './Components/User/CreatePodcast';
+import Podcasts from './Components/User/Podcasts';
+import UserNav from './Components/User/UserNav';
+import PodcastDetails from './Components/User/PodcastDetails';
 
 function App() {
 
@@ -42,21 +46,31 @@ function App() {
             console.log(error);
           }
         )
+        return () => {
+          unsubscribeSnapshot()
+        }
       }
     })
 
     return () => {
       unSubscribeAuth()
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="w-screen pb-10 min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-teal-900 via-black to-black">
       <Routes>
         <Route path="/" element={<Auth />} />
-        <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route element={<PrivateRoutes />} >
+          <Route path="/user" element={<UserNav />} >
+            <Route path="" element={<Podcasts />} />
+            <Route path="podcasts" element={<Podcasts />} />
+            <Route path="podcasts/:id" element={<PodcastDetails />} />
+            <Route path="details" element={<Profile />} />
+            <Route path='create-podcast' element={<CreatePodcast />} />
+          </Route>
+        </Route>
       </Routes>
     </div>
   );
