@@ -14,9 +14,9 @@ const FileInput = ({accept, onChange, value , id, isFileSelected , setIsFileSele
     <>
     <label 
         htmlFor={id}
-        className={`text-green-400 bg-transparent cursor-pointer px-6 py-2 w-full outline-none border border-teal-900 rounded-xl ${isFileSelected ? ` border-white border-2 text-amber-100 font-bold` : ''}`}
+        className={`text-green-400 whitespace-nowrap bg-transparent cursor-pointer px-6 py-2 w-full outline-none border border-teal-900 rounded-xl ${isFileSelected ? ` border-white border-2 text-amber-100 font-bold` : ''}`}
         >
-            {isFileSelected ? 'File Selected: ' + selectedFileName.substring(0, 14) : value}
+            {isFileSelected ? 'File Selected: ' + selectedFileName.substring(0, 8) : value}
     </label>
       <input 
           text={value}

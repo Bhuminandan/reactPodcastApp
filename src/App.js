@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Auth from './Components/Auth/Auth';
 import Login from './Components/Auth/Login';
-import Profile from './Components/User/Profile';
+import Profile from './Components/Pages/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -12,11 +12,12 @@ import { db } from './firebase'
 import { useDispatch } from 'react-redux'
 import { setUser } from './slices/userSlice'
 import { onSnapshot } from 'firebase/firestore';
-import PrivateRoutes from './Components/User/PrivateRoutes';
-import CreatePodcast from './Components/User/CreatePodcast';
-import Podcasts from './Components/User/Podcasts';
-import UserNav from './Components/User/UserNav';
-import PodcastDetails from './Components/User/PodcastDetails';
+import PrivateRoutes from './Components/Pages/PrivateRoutes';
+import CreatePodcast from './Components/Pages/CreatePodcast';
+import Podcasts from './Components/Pages/Podcasts';
+import UserNav from './Components/Pages/UserNav';
+import PodcastDetails from './Components/Pages/PodcastDetails';
+import CreateEpisodPage from './Components/Pages/CreateEpisodPage';
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
             <Route path="" element={<Podcasts />} />
             <Route path="podcasts" element={<Podcasts />} />
             <Route path="podcasts/:id" element={<PodcastDetails />} />
+            <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />
             <Route path="details" element={<Profile />} />
             <Route path='create-podcast' element={<CreatePodcast />} />
           </Route>

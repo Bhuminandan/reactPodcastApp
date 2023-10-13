@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CommonInput from '../Common/CommonInput'
 import { useState } from 'react'
 import createPodcast from '../../data/illustrations/podcastIconCreate.svg'
@@ -7,7 +7,7 @@ import CustomeBtn from '../Common/CustomeBtn'
 import { ToastContainer, toast } from 'react-toastify'
 import {storage, auth, db} from '../../firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, query } from 'firebase/firestore'
 import { useNavigate} from 'react-router-dom'
 
 const CreatePodcast = () => {
@@ -26,10 +26,6 @@ const CreatePodcast = () => {
 
     const handleCreatePodcastSubmit = async (e) => {
         e.preventDefault()
-        console.log(podcastName);
-        console.log(podcastDesc);
-        console.log(displayImg);
-        console.log(bannerImg);
 
 
         if (!podcastName || !podcastDesc || !displayImg || !bannerImg) {
@@ -149,6 +145,8 @@ const CreatePodcast = () => {
     }
 
 
+   
+
   return (
     <div className='flex items-start justify-center w-screen min-h-screen max-w-screen-2xl text-green-100 m-auto'>
         <ToastContainer/>
@@ -158,7 +156,7 @@ const CreatePodcast = () => {
             <div className="input-div">
                 <h3 className='text-[16px] font-medium text-green-200 mb-2'>Podcast Name</h3>
                 <CommonInput
-                    placeholder={'Podcast Name'}
+                    placeholder={'Podcast Title'}
                     type={'text'}
                     value={podcastName}
                     onChange={setPodcastName}
