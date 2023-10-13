@@ -47,7 +47,7 @@ const CreateEpisodPage = () => {
 
         toast.success('Podcast Creating...', {
             position: "top-right",
-            autoClose: 6000,
+            autoClose: 10000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

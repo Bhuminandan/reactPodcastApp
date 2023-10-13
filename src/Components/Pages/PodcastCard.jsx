@@ -14,7 +14,7 @@ const PodcastCard = ({bannerImg, title, desc, id}) => {
   }
 
   return (
-    <div className='flex flex-col items-start justify-start rounded-lg bg-gray-900 w-72 h-96 md:w-96 cursor-pointer hover:scale-95 transition-all duration-300 ease-in-out text-white overflow-hidden'
+    <div className='flex flex-col items-start justify-start rounded-lg border-2 border-gray-600 bg-zinc-950 w-72 h-96 md:w-96 cursor-pointer hover:bg-zinc-900 transition-all duration-300 ease-in-out text-white overflow-hidden'
       onClick={handleCardClick}
     >
       <div className='w-full h-full rounded-lg p-5'>

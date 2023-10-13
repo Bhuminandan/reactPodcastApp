@@ -8,6 +8,9 @@ import CustomeBtn from '../Common/CustomeBtn';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPodcastEpisodes } from '../../slices/podcastsEpisodesSlice';
+import emptyIllustration from '../../data/illustrations/emptyIll.svg'
+import PodcastEpisodeCard from './PodcastEpisodeCard';
+import AudioPlayer from './Audio/AudioPlayer';
 
 
 const PodcastDetails = () => {
@@ -17,14 +20,13 @@ const PodcastDetails = () => {
 
     const [podcast, setPodcast] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [currentAudio, setCurrentAudio] = useState('');
+    console.log(currentAudio);
+
 
     
     const podcastsEpisodes = useSelector((state) => state.podcastEpisodes)
-    const podcasts = useSelector((state) => state.podcastsSlice)
-    console.log(podcasts); 
-
     const { id } = useParams();
-    console.log(id);
 
 
      useEffect(() => {
@@ -76,6 +78,8 @@ const PodcastDetails = () => {
         }
     
       }, [dispatch])
+
+      
     
 
   return (
@@ -104,28 +108,43 @@ const PodcastDetails = () => {
                 alt="banner" />
                 <h3 className='mt-10 text-xl font-bold'>Podcast info</h3>
                 <div className='mt-10 text-gray-400 w-full'>{podcast.desc}</div>
-                <div className='mt-10'>
-                    <h3 className='mt-10 text-2xl font-bold'>Episodes</h3>
-                    <div className='flex items-start justify-start flex-nowrap overflow-auto'>
+                <div className='mt-10 mb-40'>
+                    <h3 className='mt-10 text-2xl font-bold mb-10'>Episodes</h3>
+                    <div className='flex items-start justify-start flex-wrap gap-5'>
                         {
-                            podcastsEpisodes.map((episod) => {
+                           podcastsEpisodes.length !== 0 ? 
+                           
+                           podcastsEpisodes.map((episod) => {
+                            console.log(episod);
                                 return (
-                                    <div className='flex items-start justify-start w-72 h-96 md:w-96 cursor-pointer hover:scale-95 transition-all duration-300 ease-in-out text-white overflow-hidden'
-                                    key={episod.id}
-                                    >
-                                        <img
-                                        className='w-full h-full object-cover'
-                                        src={episod.bannerImg}
-                                        alt="episod"
-                                        />
-                                        <div className='ml-2'>
-                                            <h3 className='text-lg font-bold'>{episod.title}</h3>
-                                            <p className='text-sm'>{episod.desc}</p>
-                                        </div>
-                                    </div>  
+                                    <PodcastEpisodeCard
+                                        key={episod.id}
+                                        bannerImg={episod.bannerImg}
+                                        title={episod.episodTitle}
+                                        setClickedCardId={setCurrentAudio}
+                                        audioInfoObj={episod}
+                                    /> 
                                 )
-                            })
+                            }) :
                             
+                            <div className='w-full h-auto flex flex-col gap-10 items-center justify-center md:mt-20 md:mb-20'>
+                                <img
+                                className='w-96 h-full' 
+                                src={emptyIllustration} 
+                                alt="empty" />
+                                <h3 className='text-xl text-green-600 font-medium'>No episodes yet...</h3>
+                                {
+                                    podcast.createdBy === auth.currentUser.uid && 
+                                        <div className='md:w-56'>
+                                        <CustomeBtn
+                                        type='button'
+                                        action={handleCreateEpisode}
+                                        btnText='Create First Episode'
+                                        disabled={false}
+                                        />
+                                        </div>
+                                }
+                            </div>
                         }
                     </div>
                 </div>

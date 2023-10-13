@@ -50,7 +50,7 @@ const Podcasts = () => {
 
   return (
    <div>
-          <div className=' max-w-screen-xl m-auto min-h-screen flex flex-col items-start justify-start px-10'>
+          <div className=' max-w-screen-xl m-auto min-h-screen flex flex-col items-start justify-start px-10 mb-40'>
             <h1 className='md:text-4xl text-2xl text-gray-600 font-bold mt-10 mb-5'>Podcasts</h1>
             {
               <div className='flex flex-wrap items-start justify-start gap-4'>
