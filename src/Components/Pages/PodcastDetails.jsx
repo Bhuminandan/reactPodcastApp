@@ -115,7 +115,6 @@ const PodcastDetails = () => {
                            podcastsEpisodes.length !== 0 ? 
                            
                            podcastsEpisodes.map((episod) => {
-                            console.log(episod);
                                 return (
                                     <PodcastEpisodeCard
                                         key={episod.id}
