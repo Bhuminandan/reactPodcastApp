@@ -19,6 +19,10 @@ import UserNav from './Components/Pages/UserNav';
 import PodcastDetails from './Components/Pages/PodcastDetails';
 import CreateEpisodPage from './Components/Pages/CreateEpisodPage';
 import AudioPlayer from './Components/Pages/Audio/AudioPlayer';
+import EditProfilePage from './Components/Pages/EditProfilePage';
+
+
+
 
 function App() {
 
@@ -41,6 +45,7 @@ function App() {
               dispatch(setUser({
                 name: userData.name,
                 email: userData.email,
+                profilePic: userData.profilePic,
                 uid: userData.uid
               })
               );
@@ -77,6 +82,7 @@ function App() {
         <Route element={<PrivateRoutes />} >
           <Route path="/user" element={<UserNav />} >
             <Route path="" element={<Podcasts />} />
+            <Route path=':id/edit-profile' element={<EditProfilePage />} />
             <Route path="podcasts" element={<Podcasts />} />
             <Route path="podcasts/:id" element={<PodcastDetails />} />
             <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />

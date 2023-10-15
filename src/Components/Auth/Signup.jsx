@@ -178,6 +178,7 @@ const Signup = () => {
 
     // Clearing the input fields
     setFullName('')
+    setProfilePic('')
     setEmail('')
     setPassword('')
     setConfirmPassword('')

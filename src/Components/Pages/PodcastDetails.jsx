@@ -12,6 +12,7 @@ import emptyIllustration from '../../data/illustrations/emptyIll.svg'
 import PodcastEpisodeCard from './PodcastEpisodeCard';
 import AudioPlayer from './Audio/AudioPlayer';
 import GenresDisplay from '../Common/GenresDisplay';
+import { nanoid } from '@reduxjs/toolkit';
 
 
 const PodcastDetails = () => {
@@ -80,9 +81,6 @@ const PodcastDetails = () => {
     
       }, [dispatch])
 
-      
-    
-
   return (
     <div>
         {
@@ -95,6 +93,7 @@ const PodcastDetails = () => {
                     podcast.createdBy === auth.currentUser.uid && 
                         <div className='md:w-56'>
                         <CustomeBtn
+                        key={nanoid()}
                         type='button'
                         action={handleCreateEpisode}
                         btnText='Create Episode'
@@ -115,6 +114,7 @@ const PodcastDetails = () => {
 
                 podcast.genres?.length !== 0 && podcast.genres?.map((genre) => {
                     return <GenresDisplay
+                        key={nanoid()}
                         genreText={genre}
                     />
                 })

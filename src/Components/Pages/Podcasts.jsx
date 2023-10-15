@@ -7,6 +7,7 @@ import { db } from '../../firebase'
 import { setPodcasts } from '../../slices/podcastsSlice'
 import { toast } from 'react-toastify'
 import PodcastCard from './PodcastCard'
+import timeCalculator from '../../Util/tImeCalculator'
 
 
 const Podcasts = () => {
@@ -40,6 +41,10 @@ const Podcasts = () => {
   }, [dispatch])
 
 
+
+  
+
+
   if(isLoading) {
     return (
       <div>
@@ -56,6 +61,7 @@ const Podcasts = () => {
               <div className='flex flex-wrap items-start justify-start gap-4'>
                 {
                   podcasts.map((podcast) => {
+                    console.log(podcast);
                     return (
                       <PodcastCard
                         key={podcast.id}
@@ -63,6 +69,8 @@ const Podcasts = () => {
                         title={podcast.title}
                         desc={podcast.desc}
                         id={podcast.id}
+                        creatorName={podcast?.creatorName}
+                        createdOn={timeCalculator(podcast.createdOn)}
                         />
                     )
                   })

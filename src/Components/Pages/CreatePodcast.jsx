@@ -11,9 +11,11 @@ import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate} from 'react-router-dom'
 import genres from '../../data/staticData/genres'
 import GenreButtons from '../Common/GenreButtons'
+import { useSelector } from 'react-redux'
 
 const CreatePodcast = () => {
 
+    const user = useSelector((state) => state.userSlice.user)
 
     const navigate = useNavigate()
 
@@ -111,13 +113,16 @@ const CreatePodcast = () => {
             const displayImgUrl = await getDownloadURL(uploadedDisplay.ref);
 
 
+
             const podCastdata = {
                 title: podcastName,
                 desc: podcastDesc,
                 displayImg: displayImgUrl,
                 bannerImg: bannerImgUrl,
                 genres: favoriteGenres,
-                createdBy: auth.currentUser.uid
+                createdBy: auth.currentUser.uid,
+                creatorName: user.name,
+                createdOn: Date.now(),
             }
 
             // creating podcast doc
