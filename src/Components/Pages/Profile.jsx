@@ -41,21 +41,15 @@ const Profile = () => {
         }
       )
     } catch (error) {
-      console.log(error);
       toast.error('Something went wrong')
     }
   }
   }, [dispatch, podcasts])
 
-  console.log(podcasts);
-  console.log(user);
-
-
   // Getting the user's Podcasts
   useEffect(() => {
     if (podcasts && user) {
     const filteredPodcasts = podcasts.filter(podcast => podcast.createdBy === user.uid)
-      console.log(filteredPodcasts);
       setUserPodcasts(filteredPodcasts)
     }
   }, [podcasts, user, dispatch])

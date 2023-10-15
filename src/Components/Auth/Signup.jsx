@@ -32,6 +32,7 @@ const Signup = () => {
   const [isPassWordVisible, setIsPasswordVisible] = useState(false)
   const [isConfirmPassWordVisible, setIsConfirmPasswordVisible] = useState(false)
  
+  
   // handle submit function
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -80,6 +81,20 @@ const Signup = () => {
       return;
     }
 
+    if (!isProfilePicSelected) {
+      toast.error('Please upload a profile picture', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+
     // signing up toast
     toast('🦄Creating Account ...', {
       position: "top-right",
@@ -106,13 +121,6 @@ const Signup = () => {
             password
           )
           const user = userCredential.user;
-
-          // Checking user has Provided profile pic or not
-          // if not then generating randome image with API
-
-          if (!isProfilePicSelected) {
-            
-          }
 
           // uploading profile pic
           const profileImageRef = ref(storage, `users/${user.uid}/profilePic`);
@@ -256,7 +264,7 @@ const Signup = () => {
           </div>
         </div>
 
-       <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Profile Pic (Optional)</h3>
+       <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Profile Pic</h3>
         <FileInput
         accept={'iamage/*'}
         onChange={setProfilePic}
