@@ -1,13 +1,32 @@
 import React from 'react'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
-const AuthInput = ({placeholder, onChange, value, type}) => {
+const AuthInput = ({placeholder, onChange, value, type, isPasswordInput, isPassWordVisible, setIsPasswordVisible}) => {
+
   return (
-    <input className='bg-transparent text-white px-6 py-2 w-full outline-none border border-teal-900 rounded-xl' 
-    placeholder={placeholder} 
-    onChange={(e) => onChange(e.target.value)} 
-    value={value} 
-    type={type}
-    />
+    <div className='flex items-center justify-between px-6 py-2 w-full border border-teal-900 rounded-xl'>
+      <input 
+      className='bg-transparent text-white w-full h-full  outline-none '
+      placeholder={placeholder} 
+      onChange={(e) => onChange(e.target.value)} 
+      value={value} 
+      type={
+        isPasswordInput ? (
+          isPassWordVisible ? 'text' : 'password'
+        ) : type
+      }
+      />
+      {
+      isPasswordInput && <>
+      {
+      isPassWordVisible ?
+           <AiFillEyeInvisible onClick={() => setIsPasswordVisible(!isPassWordVisible)} className='text-2xl mr-2 rounded-full shadow-sm cursor-pointer active:transform active:translate-y-1'/>
+           :
+           <AiFillEye onClick={() => setIsPasswordVisible(!isPassWordVisible)} className='text-2xl mr-2 rounded-full shadow-sm cursor-pointer active:transform active:translate-y-1'/>
+      }
+      </>
+      }
+    </div>
   )
 }
 

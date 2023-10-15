@@ -25,7 +25,6 @@ function App() {
   const dispatch = useDispatch()
   const isPlayerVisible = useSelector((state) => state.audioSlice.isPlayerVisible)
   const currentAudio = useSelector((state) => state.audioSlice.currentAudio)
-  console.log(isPlayerVisible);
 
   useEffect(() => {
 

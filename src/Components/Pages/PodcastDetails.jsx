@@ -11,6 +11,7 @@ import { setPodcastEpisodes } from '../../slices/podcastsEpisodesSlice';
 import emptyIllustration from '../../data/illustrations/emptyIll.svg'
 import PodcastEpisodeCard from './PodcastEpisodeCard';
 import AudioPlayer from './Audio/AudioPlayer';
+import GenresDisplay from '../Common/GenresDisplay';
 
 
 const PodcastDetails = () => {
@@ -108,6 +109,18 @@ const PodcastDetails = () => {
                 alt="banner" />
                 <h3 className='mt-10 text-xl font-bold'>Podcast info</h3>
                 <div className='mt-10 text-gray-400 w-full'>{podcast.desc}</div>
+                <h3 className='mt-10 text-xl font-bold'>Genres</h3>
+                <div className='flex items-start justify-start flex-wrap gap-2 mt-5'>
+               {
+
+                podcast.genres?.length !== 0 && podcast.genres?.map((genre) => {
+                    return <GenresDisplay
+                        genreText={genre}
+                    />
+                })
+                
+               }
+                </div>
                 <div className='mt-10 mb-40'>
                     <h3 className='mt-10 text-2xl font-bold mb-10'>Episodes</h3>
                     <div className='flex items-start justify-start flex-wrap gap-5'>

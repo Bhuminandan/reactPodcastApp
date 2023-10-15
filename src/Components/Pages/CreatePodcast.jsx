@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import CommonInput from '../Common/CommonInput'
 import { useState } from 'react'
 import createPodcast from '../../data/illustrations/podcastIconCreate.svg'
@@ -7,8 +7,10 @@ import CustomeBtn from '../Common/CustomeBtn'
 import { ToastContainer, toast } from 'react-toastify'
 import {storage, auth, db} from '../../firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { addDoc, collection, onSnapshot, query } from 'firebase/firestore'
+import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate} from 'react-router-dom'
+import genres from '../../data/staticData/genres'
+import GenreButtons from '../Common/GenreButtons'
 
 const CreatePodcast = () => {
 
@@ -22,7 +24,7 @@ const CreatePodcast = () => {
     const [isBannerSelected, setIsBannerSelected] = useState(false)
     const [isDisplaySelected, setIsDisplaySelected] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-
+    const [favoriteGenres, setFavoriteGenres] = useState([])
 
     const handleCreatePodcastSubmit = async (e) => {
         e.preventDefault()
@@ -40,11 +42,26 @@ const CreatePodcast = () => {
                 progress: undefined,
                 theme: "dark",
             });
+            return;
+        }
+
+        if (favoriteGenres.length < 3) {
+            toast.error('Please select at least 3 genres', {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+            return
         }
 
         toast.success('Podcast Creating...', {
             position: "top-right",
-            autoClose: 1000,
+            autoClose: 10000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -55,14 +72,15 @@ const CreatePodcast = () => {
         setIsLoading(true)
 
 
-        if(podcastName && podcastDesc && displayImg && bannerImg){
+        if(podcastName && podcastDesc && displayImg && bannerImg && favoriteGenres.length !== 0) {
 
             try {
 
                   // uploading banner image to firebase storage
             const bannerImgRef = ref(storage, `podcasts/${auth.currentUser.uid}/${Date.now()}`);
             const uploadedBanner = await uploadBytes(bannerImgRef, bannerImg);
-            console.log(uploadedBanner);
+
+
             toast.success('Banner Image Uploaded', {
                 position: "top-right",
                 autoClose: 1000,
@@ -73,7 +91,6 @@ const CreatePodcast = () => {
                 progress: undefined,
                 theme: "dark",
             })
-
             const bannerImgUrl = await getDownloadURL(uploadedBanner.ref);
 
 
@@ -91,14 +108,15 @@ const CreatePodcast = () => {
                 progress: undefined,
                 theme: "dark",
             })
-
             const displayImgUrl = await getDownloadURL(uploadedDisplay.ref);
+
 
             const podCastdata = {
                 title: podcastName,
                 desc: podcastDesc,
                 displayImg: displayImgUrl,
                 bannerImg: bannerImgUrl,
+                genres: favoriteGenres,
                 createdBy: auth.currentUser.uid
             }
 
@@ -143,9 +161,22 @@ const CreatePodcast = () => {
         setIsDisplaySelected(false)
         navigate('/user/podcasts')
     }
+    
+    const handleGenereClick = (e) => {
+        if (e) {     
+            const genre = e.target.innerText;
+            if(favoriteGenres.includes(genre)) {
+                setFavoriteGenres(favoriteGenres.filter(favGenre => favGenre !== genre))
+            } else {
+                setFavoriteGenres([...favoriteGenres, genre])
+            }
+        }
+    }
 
+    useEffect(() => {
+        handleGenereClick(); 
+    }, [favoriteGenres])
 
-   
 
   return (
     <div className='flex items-start justify-center w-screen min-h-screen max-w-screen-2xl text-green-100 m-auto'>
@@ -194,6 +225,23 @@ const CreatePodcast = () => {
 
                 />
             </div>
+            
+        <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Choose Genres (Min - 3)</h3>
+        <div className='w-full flex items-start justify-start flex-wrap gap-2'>
+          {
+            genres.map((genre) => {
+              console.log('Rendered map');
+              return (
+                <GenreButtons
+                key={genre.id}
+                title={genre.title}
+                onClick={handleGenereClick}
+                isGenereSelected={favoriteGenres.includes(genre.title)}
+                />
+              )
+            })
+          }
+        </div>
             <CustomeBtn 
                 type={'submit'}
                 btnText={'Create Podcast'}

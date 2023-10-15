@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import CommonInput from '../Common/CommonInput'
 import { useState } from 'react'
@@ -10,6 +10,8 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate} from 'react-router-dom'
 import illustration from '../../data/illustrations/createEpisodPageIllustration.svg'
+import genres from '../../data/staticData/genres'
+import GenreButtons from '../Common/GenreButtons'
 
 const CreateEpisodPage = () => {
 
@@ -24,6 +26,7 @@ const CreateEpisodPage = () => {
     const [isFileSelected, setIsFileSelected] = useState(false)
     const [isBannerSelected, setIsBannerSelected] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [favoriteGenres, setFavoriteGenres] = useState([])
 
     const handleSubmit = async (e) => {
 
@@ -45,7 +48,22 @@ const CreateEpisodPage = () => {
             return;
         }
 
-        toast.success('Podcast Creating...', {
+        if (favoriteGenres.length < 3) {
+            toast.error('Please select at least 3 genres', {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+            setIsLoading(false)
+            return
+        }
+
+        toast.success('Podcast Episod Creating...', {
             position: "top-right",
             autoClose: 10000,
             hideProgressBar: false,
@@ -81,6 +99,7 @@ const CreateEpisodPage = () => {
                 episodTitle: episodName,
                 episodDesc: episodDesc,
                 audioFile: audioUrl,
+                favoriteGenres: favoriteGenres,
                 bannerImg: bannerImgUrl,
             }
 
@@ -132,6 +151,21 @@ const CreateEpisodPage = () => {
         setAudioFile('')
     }
 
+    const handleGenereClick = (e) => {
+        if (e) {     
+            const genre = e.target.innerText;
+            if(favoriteGenres.includes(genre)) {
+                setFavoriteGenres(favoriteGenres.filter(favGenre => favGenre !== genre))
+            } else {
+                setFavoriteGenres([...favoriteGenres, genre])
+            }
+        }
+    }
+
+    useEffect(() => {
+        handleGenereClick(); 
+    }, [favoriteGenres])
+
   return (
     <div className='w-screen min-h-screen'>
         <ToastContainer/>
@@ -182,6 +216,26 @@ const CreateEpisodPage = () => {
                     isFileSelected={isBannerSelected}
                     />
                 </div>
+
+                <div className='w-full'>
+                <h3 className='text-[16px] font-medium text-green-200 mb-5 mt-4'>Choose Genres (Min - 3)</h3>
+                <div className='w-full flex items-start justify-start flex-wrap gap-2'>
+                {
+                    genres.map((genre) => {
+                    console.log('Rendered map');
+                    return (
+                        <GenreButtons
+                        key={genre.id}
+                        title={genre.title}
+                        onClick={handleGenereClick}
+                        isGenereSelected={favoriteGenres.includes(genre.title)}
+                        />
+                    )
+                    })
+                }
+                </div>
+                </div>
+
                 <CustomeBtn
                 type={'submit'}
                 btnText={'Create Podcast Episode'}

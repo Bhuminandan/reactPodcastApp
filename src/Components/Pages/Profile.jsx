@@ -8,14 +8,13 @@ import PageLoader from '../Common/PageLoader';
 
 const Profile = () => {
 
+  // Getting the user details from the redux
   const user = useSelector((state) => state.userSlice.user)
   console.log(user);
 
 
+  // Sign Out Function 
   const handleSignOut = async () => {
-
-    console.log('inside the signout');
-
     try {
       await signOut(auth)
       toast.success('Logged Out Successfully')      
@@ -25,6 +24,7 @@ const Profile = () => {
     
   }
 
+  // Showing loader while loading
   if (!user) {
     return (
       <div className='flex items-center justify-center w-screen h-screen'>
@@ -33,8 +33,10 @@ const Profile = () => {
     )
   }
 
+  // Profile Page
   return (
-    <div className='text-white'>
+    <div className='w-screen h-screen flex flex-col items-start justify-start gap-2'>
+    <div className='text-white  max-w-screen-xl border mt-10 m-auto'>
       <h1>{ user.name }</h1>
       <h2>{ user.email }</h2>
       <h3>{ user.uid }</h3>
@@ -44,6 +46,7 @@ const Profile = () => {
       btnText={'Logout'}
       disabled={false}
       />
+    </div>
     </div>
   )
 }
