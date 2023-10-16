@@ -20,6 +20,8 @@ import PodcastDetails from './Components/Pages/PodcastDetails';
 import CreateEpisodPage from './Components/Pages/CreateEpisodPage';
 import AudioPlayer from './Components/Pages/Audio/AudioPlayer';
 import EditProfilePage from './Components/Pages/EditProfilePage';
+import ForgotPass from './Components/Auth/ForgotPass';
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -68,6 +70,7 @@ function App() {
 
   return (
     <div className="w-screen pb-10 min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-teal-900 via-black to-black">
+      <ToastContainer />
       {
         isPlayerVisible &&
         <div className=' z-50'>
@@ -79,6 +82,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/login" element={<Login />} />
+        <Route path='/forgot-pass' element={<ForgotPass />} />
         <Route element={<PrivateRoutes />} >
           <Route path="/user" element={<UserNav />} >
             <Route path="" element={<Podcasts />} />

@@ -16,6 +16,8 @@ const Podcasts = () => {
 
   const dispatch = useDispatch()
   const podcasts = useSelector((state) => state.podcastsSlice)
+  const user = useSelector((state) => state.userSlice.user)
+  console.log(user);
  
   useEffect(() => {
     setIsLoading(true);
@@ -39,11 +41,6 @@ const Podcasts = () => {
     }
 
   }, [dispatch])
-
-
-
-  
-
 
   if(isLoading) {
     return (

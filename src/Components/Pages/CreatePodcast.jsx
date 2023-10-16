@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import CommonInput from '../Common/CommonInput'
-import { useState } from 'react'
 import createPodcast from '../../data/illustrations/podcastIconCreate.svg'
 import FileInput from '../Common/FileInput'
 import CustomeBtn from '../Common/CustomeBtn'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import {storage, auth, db} from '../../firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { addDoc, collection } from 'firebase/firestore'
@@ -63,7 +62,7 @@ const CreatePodcast = () => {
 
         toast.success('Podcast Creating...', {
             position: "top-right",
-            autoClose: 10000,
+            autoClose: 4000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -185,7 +184,6 @@ const CreatePodcast = () => {
 
   return (
     <div className='flex items-start justify-center w-screen min-h-screen max-w-screen-2xl text-green-100 m-auto'>
-        <ToastContainer/>
         <div className="left h-full w-full md:w-1/2 px-10 py-20">
             <h1 className='text-4xl font-bold mb-10'>Create Podcast</h1>
             <form onSubmit={handleCreatePodcastSubmit}>

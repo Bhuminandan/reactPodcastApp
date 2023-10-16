@@ -69,9 +69,7 @@ const handleSubmit = (e) => {
           password
         )
         const user = userCredential.user;     
-        
-        console.log(user);
-        
+                
         // Saving user details
         const userDoc = await getDoc(doc(db, 'users', user.uid))
         console.log(userDoc);
@@ -136,7 +134,6 @@ const handleSubmit = (e) => {
     className='flex flex-col items-start justify-center gap-2 w-full'
     >
 
-
       <h3 className='text-[16px] mt-5 font-medium text-teal-100 mb-2'>Email</h3>
       <AuthInput
         placeholder={'Email..'}
@@ -160,6 +157,7 @@ const handleSubmit = (e) => {
       />
       </form>
       <p>Don't have an account? <NavLink to={'/'} className={'text-teal-400 font-medium underline'}>Signup</NavLink></p>
+      <p>Forgot Passward? <NavLink to={'/forgot-pass'} className={'text-teal-400 font-medium underline'}>Reset Passward</NavLink></p>
     </div>
     </>
   )

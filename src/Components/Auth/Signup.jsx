@@ -135,13 +135,13 @@ const Signup = () => {
             uid: user.uid
           })
           
-          
           dispatch(setUser({
             name: fullName,
             email: user.email,
             profilePicUrl: profilePicUrl,
             uid: user.uid
           }))
+          
           setIsLoading(false)
 
           // redirecting user to profile on successful signup
@@ -281,6 +281,7 @@ const Signup = () => {
         />
       </form>
       <p>Already have an account? <NavLink to={'/login'} className={'text-teal-400 font-medium underline'}>Login</NavLink></p>
+      <p>Forgot Passward? <NavLink to={'/forgot-pass'} className={'text-teal-400 font-medium underline'}>Reset Passward</NavLink></p>
     </div>
     </>
   )

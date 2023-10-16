@@ -4,9 +4,9 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 const AuthInput = ({placeholder, onChange, value, type, isPasswordInput, isPassWordVisible, setIsPasswordVisible}) => {
 
   return (
-    <div className='flex items-center justify-between px-6 py-2 w-full border border-teal-900 rounded-xl'>
+    <div className='flex items-center justify-between px-2 py-2 w-full border border-teal-900 rounded-xl'>
       <input 
-      className='bg-transparent text-white w-full h-full  outline-none '
+      className='bg-transparent text-white w-full h-full  outline-none rounded-2xl px-4 py-1'
       placeholder={placeholder} 
       onChange={(e) => onChange(e.target.value)} 
       value={value} 

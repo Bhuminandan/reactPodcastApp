@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import CommonInput from '../Common/CommonInput';
 import FileInput from '../Common/FileInput';
 import CustomeBtn from '../Common/CustomeBtn';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -96,7 +96,6 @@ const EditProfilePage = () => {
         }
   return (
     <div className='flex flex-col items-start justify-start gap-4 max-w-screen-lg min-h-screen px-5 md:px-10 m-auto'>
-        <ToastContainer/>
       <h1 className='text-4xl font-bold text-gray-600 mt-10'>Edit Profile</h1>
 
       <div className='flex flex-col items-start justify-start gap-4 w-full'>

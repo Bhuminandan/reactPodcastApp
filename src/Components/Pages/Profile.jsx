@@ -10,6 +10,7 @@ import { collection, onSnapshot, query } from 'firebase/firestore';
 import { setPodcasts } from '../../slices/podcastsSlice';
 import timeCalculator from '../../Util/tImeCalculator';
 import { useNavigate } from 'react-router-dom';
+import emptyill from '../../data/illustrations/emptyIll.svg'
 
 const Profile = () => {
 
@@ -87,7 +88,7 @@ const Profile = () => {
       
       <img
       className='w-32 h-32 rounded-full object-cover' 
-      src={user?.profilePic} 
+      src={user?.profilePicUrl} 
       alt="profile" />
 
       <h1 className='text-2xl font-bold text-gray-100'>{user.name}</h1>
@@ -114,7 +115,7 @@ const Profile = () => {
       <h1 className='md:text-4xl text-2xl text-gray-600 font-bold mt-10 mb-5'>Your Podcasts</h1>
               <div className='flex flex-wrap items-start justify-start gap-4'>
                 {
-                  userPodcasts && 
+                  userPodcasts.length !== 0 ? 
                   userPodcasts.map((podcast) => {
                     console.log('Getting called in userPodcasts');
                     return (
@@ -129,12 +130,25 @@ const Profile = () => {
                         />
                     )
                   })
+                  // type, action, btnText, disabled
+                  :
+                  <div className='flex flex-col items-center justify-center w-full mt-10'>
+                    <img 
+                    className='w-96'
+                    src={emptyill} alt="empty" />
+
+                    <div className='flex items-center justify-center mt-10 mb-20'>
+                    <CustomeBtn
+                    type={'submit'}
+                    action={() => navigate('/user/create-podcast')}
+                    btnText={'Create Your First Podcast'}
+                    />
+                    </div>
+                  </div>
                 }
               </div>
           </div>
       </div>
-
-      
     </div>
   )
 }

@@ -4,7 +4,7 @@ import CommonInput from '../Common/CommonInput'
 import { useState } from 'react'
 import FileInput from '../Common/FileInput'
 import CustomeBtn from '../Common/CustomeBtn'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import {storage, auth, db} from '../../firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { addDoc, collection } from 'firebase/firestore'
@@ -168,7 +168,6 @@ const CreateEpisodPage = () => {
 
   return (
     <div className='w-screen min-h-screen'>
-        <ToastContainer/>
         <div className=' max-w-screen-2xl h-full md:px-10 px-5 mt-10 w-full m-auto'>
             <h1 className='text-4xl font-bold mb-10 text-gray-600'>Create Episode</h1>
         <div className='flex items-center justify-between gap-10 w-full'>
