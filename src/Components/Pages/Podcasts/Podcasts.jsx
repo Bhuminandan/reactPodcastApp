@@ -50,7 +50,7 @@ const Podcasts = () => {
 
   return (
    <div>
-          <div className=' max-w-screen-xl m-auto min-h-screen flex flex-col items-start justify-start px-10 mb-40'>
+          <div className=' max-w-screen-xl m-auto min-h-screen flex flex-col items-start justify-start px-5 mb-40'>
             <PageHeader 
               title='Podcasts Collections'
             />
