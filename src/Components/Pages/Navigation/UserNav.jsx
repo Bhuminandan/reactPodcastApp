@@ -19,7 +19,7 @@ const UserNav = () => {
         <img className='w-10' src={weblogo} alt="weblogo" />
       <div className='text-2xl font-bold'>POD-X</div>
       </div>
-      <div className={`flex-col items-start justify-start pt-40 gap-2 absolute top-0 w-4/5 h-screen flex bg-zinc-950  -left-5`}  style={{ transform: `translateX(${isMobMenuOpen ? 0 : '-100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+      <div className={`flex-col items-start justify-start pt-40 gap-2 absolute top-0 w-4/5 h-screen flex bg-zinc-950 -left-5 z-20`}  style={{ transform: `translateX(${isMobMenuOpen ? 0 : '-100%'})`, transition: 'transform 0.3s ease-in-out' }}>
         <NavLink to='/user/podcasts' className={' pl-10 mr-2 w-full text-4xl py-2 px-2 rounded-md hover:bg-stone-900 transition-all duration-300 text-[16px] font-medium'}
         onClick={() => dispatch(toggleMobNavOpen())}
         >Podcasts</NavLink>
