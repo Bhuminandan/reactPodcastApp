@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
-import CommonInput from '../Common/CommonInput';
-import FileInput from '../Common/FileInput';
-import CustomeBtn from '../Common/CustomeBtn';
+import CommonInput from '../../Common/CommonInput';
+import FileInput from '../../Common/FileInput';
+import CustomeBtn from '../../Common/CustomeBtn';
 import { toast } from 'react-toastify';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { db, storage } from '../../firebase';
+import { db, storage } from '../../../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { setUser } from '../../../slices/userSlice';
 
 const EditProfilePage = () => {
 
     const navigate = useNavigate();
+    const dispath = useDispatch();
 
     const [newName, setNewName] = useState('');
     const [profilePic, setProfilePic] = useState('');
@@ -65,12 +67,23 @@ const EditProfilePage = () => {
 
                 await updateDoc(doc(db, "users", user?.uid), {
                     name: newName,
-                    profilePic: profilePicUrl
+                    profilePicUrl: profilePicUrl
                 })
+
+                dispath(setUser({
+                    ...user,
+                    name: newName,
+                    profilePicUrl
+                }))
+
             } else {
                 await updateDoc(doc(db, "users", user?.uid), {
                     name: newName
                 })
+                dispath(setUser({
+                    ...user,
+                    name: newName,
+                }))
             }
 
             toast.success('Profile updating...', {

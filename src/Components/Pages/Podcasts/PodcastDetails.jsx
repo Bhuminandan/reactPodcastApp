@@ -1,17 +1,16 @@
 import React,  { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { auth, db } from '../../firebase'; 
+import { auth, db } from '../../../firebase'; 
 import { collection, doc, getDoc, onSnapshot, query } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import CustomeBtn from '../Common/CustomeBtn';
+import CustomeBtn from '../../Common/CustomeBtn';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPodcastEpisodes } from '../../slices/podcastsEpisodesSlice';
-import emptyIllustration from '../../data/illustrations/emptyIll.svg'
-import PodcastEpisodeCard from './PodcastEpisodeCard';
-import AudioPlayer from './Audio/AudioPlayer';
-import GenresDisplay from '../Common/GenresDisplay';
+import { setPodcastEpisodes } from '../../../slices/podcastsEpisodesSlice';
+import emptyIllustration from '../../../data/illustrations/emptyIll.svg'
+import PodcastEpisodeCard from '../Episodes/PodcastEpisodeCard';
+import GenresDisplay from '../../Common/GenresDisplay';
 import { nanoid } from '@reduxjs/toolkit';
 
 
@@ -87,7 +86,7 @@ const PodcastDetails = () => {
             <div className='max-w-screen-xl m-auto px-5 md:px-10 text-gray-500 rounded-2xl overflow-hidden'>
                 <div className='flex items-center justify-between flex-wrap gap-5'>
 
-                <h1 className='text-2xl md:text-4xl font-bold text-gray-300 md:mt-10 '>{podcast.title}</h1>
+                <h1 className='text-2xl md:text-3xl font-bold text-gray-500 md:mt-10 '>{podcast.title}</h1>
                 {
                     // Showind the create podcast button only to the author of the podcast collection
                     podcast.createdBy === auth.currentUser.uid && 

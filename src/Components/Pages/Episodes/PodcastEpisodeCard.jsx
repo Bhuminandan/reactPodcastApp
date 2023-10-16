@@ -1,7 +1,7 @@
 import React from 'react'
 import { AiFillPlayCircle } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentAudio, setIsPlayerVisible } from '../../slices/audioSlice'
+import { setCurrentAudio, setIsPlayerVisible } from '../../../slices/audioSlice'
 
 const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj}) => {
 

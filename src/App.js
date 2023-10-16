@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Auth from './Components/Auth/Auth';
 import Login from './Components/Auth/Login';
-import Profile from './Components/Pages/Profile';
+import Profile from './Components/Pages/Profile/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -12,16 +12,16 @@ import { db } from './firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './slices/userSlice'
 import { onSnapshot } from 'firebase/firestore';
-import PrivateRoutes from './Components/Pages/PrivateRoutes';
-import CreatePodcast from './Components/Pages/CreatePodcast';
-import Podcasts from './Components/Pages/Podcasts';
-import UserNav from './Components/Pages/UserNav';
-import PodcastDetails from './Components/Pages/PodcastDetails';
-import CreateEpisodPage from './Components/Pages/CreateEpisodPage';
-import AudioPlayer from './Components/Pages/Audio/AudioPlayer';
-import EditProfilePage from './Components/Pages/EditProfilePage';
-import ForgotPass from './Components/Auth/ForgotPass';
 import { ToastContainer } from 'react-toastify';
+import AudioPlayer from './Components/Pages/Audio/AudioPlayer';
+import PrivateRoutes from './Components/Pages/PrivateRoutes/PrivateRoutes';
+import UserNav from './Components/Pages/Navigation/UserNav';
+import EditProfilePage from './Components/Pages/Profile/EditProfilePage';
+import PodcastDetails from './Components/Pages/Podcasts/PodcastDetails';
+import CreateEpisodPage from './Components/Pages/Episodes/CreateEpisodPage';
+import CreatePodcast from './Components/Pages/Podcasts/CreatePodcast';
+import Podcasts from './Components/Pages/Podcasts/Podcasts';
+import ForgotPass from './Components/Auth/ForgotPass';
 
 
 
@@ -69,7 +69,7 @@ function App() {
   }, [dispatch])
 
   return (
-    <div className="w-screen pb-10 min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-teal-900 via-black to-black">
+    <div className="w-screen pb-10 min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-emerald-950 via-black to-black">
       <ToastContainer />
       {
         isPlayerVisible &&

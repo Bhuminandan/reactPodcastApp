@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import CommonInput from '../Common/CommonInput'
-import createPodcast from '../../data/illustrations/podcastIconCreate.svg'
-import FileInput from '../Common/FileInput'
-import CustomeBtn from '../Common/CustomeBtn'
+import CommonInput from '../../Common/CommonInput'
+import createPodcast from '../../../data/illustrations/podcastIconCreate.svg'
+import FileInput from '../../Common/FileInput'
+import CustomeBtn from '../../Common/CustomeBtn'
 import { toast } from 'react-toastify'
-import {storage, auth, db} from '../../firebase'
+import {storage, auth, db} from '../../../firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate} from 'react-router-dom'
-import genres from '../../data/staticData/genres'
-import GenreButtons from '../Common/GenreButtons'
+import genres from '../../../data/staticData/genres'
+import GenreButtons from '../../Common/GenreButtons'
 import { useSelector } from 'react-redux'
+import PageHeader from '../../Common/PageHeader'
 
 const CreatePodcast = () => {
 
@@ -184,8 +185,12 @@ const CreatePodcast = () => {
 
   return (
     <div className='flex items-start justify-center w-screen min-h-screen max-w-screen-2xl text-green-100 m-auto'>
-        <div className="left h-full w-full md:w-1/2 px-10 py-20">
-            <h1 className='text-4xl font-bold mb-10'>Create Podcast</h1>
+        <div className="left h-full w-full md:w-1/2 px-10 py-10">
+            <PageHeader
+            title={'Create Podcast Collection'}
+            mt={'0'}
+            mb={'10'}
+            />  
             <form onSubmit={handleCreatePodcastSubmit}>
             <div className="input-div">
                 <h3 className='text-[16px] font-medium text-green-200 mb-2'>Podcast Name</h3>
@@ -233,7 +238,6 @@ const CreatePodcast = () => {
         <div className='w-full flex items-start justify-start flex-wrap gap-2'>
           {
             genres.map((genre) => {
-              console.log('Rendered map');
               return (
                 <GenreButtons
                 key={genre.id}

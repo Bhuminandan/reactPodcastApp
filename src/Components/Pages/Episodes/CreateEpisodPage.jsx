@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import CommonInput from '../Common/CommonInput'
+import CommonInput from '../../Common/CommonInput'
 import { useState } from 'react'
-import FileInput from '../Common/FileInput'
-import CustomeBtn from '../Common/CustomeBtn'
+import FileInput from '../../Common/FileInput'
+import CustomeBtn from '../../Common/CustomeBtn'
 import { toast } from 'react-toastify'
-import {storage, auth, db} from '../../firebase'
+import {storage, auth, db} from '../../../firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate} from 'react-router-dom'
-import illustration from '../../data/illustrations/createEpisodPageIllustration.svg'
-import genres from '../../data/staticData/genres'
-import GenreButtons from '../Common/GenreButtons'
+import illustration from '../../../data/illustrations/createEpisodPageIllustration.svg'
+import genres from '../../../data/staticData/genres'
+import GenreButtons from '../../Common/GenreButtons'
+import PageHeader from '../../Common/PageHeader'
 
 const CreateEpisodPage = () => {
 
@@ -139,11 +140,6 @@ const CreateEpisodPage = () => {
             setIsLoading(false)
         }
 
-        console.log(episodName);
-        console.log(episodDesc);
-        console.log(audioFile);
-        console.log(bannerImg);
-
         setIsLoading(false)
         setIsFileSelected(false)
         setEpisodName('')
@@ -169,7 +165,9 @@ const CreateEpisodPage = () => {
   return (
     <div className='w-screen min-h-screen'>
         <div className=' max-w-screen-2xl h-full md:px-10 px-5 mt-10 w-full m-auto'>
-            <h1 className='text-4xl font-bold mb-10 text-gray-600'>Create Episode</h1>
+            <PageHeader
+            title={'Create Episode'}
+            />
         <div className='flex items-center justify-between gap-10 w-full'>
             <form
             onSubmit={handleSubmit}

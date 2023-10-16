@@ -1,8 +1,8 @@
 import React from 'react'
-import {auth} from '../../firebase'
+import {auth} from '../../../firebase'
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import PageLoader from '../Common/PageLoader'
+import PageLoader from '../../Common/PageLoader'
 
 
 const PrivateRoutes = () => {

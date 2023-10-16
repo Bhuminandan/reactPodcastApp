@@ -60,8 +60,6 @@ const handleSubmit = (e) => {
     setIsLoading(true)
 
     try {
-
-      
       // Signing in with inbuilt signin firebase hook
         const userCredential = await signInWithEmailAndPassword(
           auth,
@@ -72,13 +70,14 @@ const handleSubmit = (e) => {
                 
         // Saving user details
         const userDoc = await getDoc(doc(db, 'users', user.uid))
-        console.log(userDoc);
         const userData = userDoc.data();
+
         console.log(userData)
         
         dispatch(setUser({
           name: userData.name,
           email: userData.email,
+          profilePicUrl:userData.profilePic,
           uid: userData.uid
         }))
         setIsLoading(false)
@@ -87,10 +86,9 @@ const handleSubmit = (e) => {
         navigate('/user/podcasts')
         
     } catch (error) {
-
-          toast.error( error.message, {
+          toast.error( 'Check email and Passward again...', {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
