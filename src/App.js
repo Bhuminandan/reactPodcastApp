@@ -22,6 +22,7 @@ import CreateEpisodPage from './Components/Pages/Episodes/CreateEpisodPage';
 import CreatePodcast from './Components/Pages/Podcasts/CreatePodcast';
 import Podcasts from './Components/Pages/Podcasts/Podcasts';
 import ForgotPass from './Components/Auth/ForgotPass';
+import FullScreenPlayer from './Components/Pages/Audio/FullScreenPlayer';
 
 
 
@@ -31,6 +32,7 @@ function App() {
   const dispatch = useDispatch()
   const isPlayerVisible = useSelector((state) => state.audioSlice.isPlayerVisible)
   const currentAudio = useSelector((state) => state.audioSlice.currentAudio)
+  const currentPlayer = useSelector((state) => state.audioSlice.currentPlayer)
 
   useEffect(() => {
 
@@ -72,12 +74,7 @@ function App() {
     <div className="w-screen pb-10 min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-emerald-950 via-black to-black">
       <ToastContainer />
       {
-        isPlayerVisible &&
-        <div className=' z-50'>
-          < AudioPlayer
-            audioSrc={currentAudio}
-          />
-        </div>
+        isPlayerVisible && currentPlayer === 'small' && <AudioPlayer />
       }
       <Routes>
         <Route path="/" element={<Auth />} />
@@ -89,6 +86,7 @@ function App() {
             <Route path=':id/edit-profile' element={<EditProfilePage />} />
             <Route path="podcasts" element={<Podcasts />} />
             <Route path="podcasts/:id" element={<PodcastDetails />} />
+            <Route path='podcasts/episode/:id' element={<FullScreenPlayer />} />
             <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />
             <Route path="details" element={<Profile />} />
             <Route path='create-podcast' element={<CreatePodcast />} />

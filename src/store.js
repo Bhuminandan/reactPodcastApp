@@ -11,8 +11,7 @@ const store = configureStore({
         podcastsSlice: podcastsSlice,
         podcastEpisodes: podcastsEpisodesSlice,
         audioSlice: audioSlice,
-        commonSlice: commonSlices
-
+        commonSlice: commonSlices,
     }
 });
 

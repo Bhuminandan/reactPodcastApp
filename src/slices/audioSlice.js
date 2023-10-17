@@ -5,6 +5,7 @@ const audioSlice = createSlice({
     initialState: {
         currentAudio: '',
         isPlayerVisible: false,
+        currentPlayer: '',
         isPlaying: true,
         isMuted: false
     },
@@ -16,6 +17,9 @@ const audioSlice = createSlice({
             state.isPlayerVisible = !state.isPlayerVisible;
             state.isPlaying = false
         },
+        setCurrentPlayer: (state, action) => {
+            state.currentPlayer = action.payload
+        },
         toggleIsPlaying: (state, action) => {
             state.isPlaying = !state.isPlaying
         },
@@ -25,6 +29,6 @@ const audioSlice = createSlice({
     }
 })
 
-export const { setCurrentAudio, setIsPlayerVisible, toggleIsPlaying, tooglgeIsMuted } = audioSlice.actions;
+export const { setCurrentAudio, setIsPlayerVisible, toggleIsPlaying, tooglgeIsMuted, setCurrentPlayer } = audioSlice.actions;
 export default audioSlice.reducer
 

@@ -1,19 +1,35 @@
-import React, { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import React from 'react'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import weblogo from '../../../data/weblogo.png'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleMobNavOpen } from '../../../slices/commonSlices'
+import {IoChevronBack} from 'react-icons/io5'
 
 const UserNav = () => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const isMobMenuOpen = useSelector((state) => state.commonSlice.isMobNavOpen);
+  const currentUrl = window.location.pathname;
+  console.log(currentUrl);
   
+  const handleBackClick = () => {
+      navigate(-1);
+  }
 
   return (
     <>
-    <div>
+    {
+      currentUrl === '/user/podcasts' ?
+      <></>
+      :
+      <div 
+      onClick={handleBackClick}
+      className='text-white ml-16 text-xl hidden lg:block cursor-pointer md:text-3xl absolute top-24 hover:bg-slate-900 p-4 rounded-full transition-all duration-300'>
+        <IoChevronBack/>
+      </div>
+    }
     <div className='w-screen flex md:hidden relative py-4 bg-transparent px-5 md:px-20 items-center justify-between gap-4 text-teal-100 border-b border-slate-800 mb-3 z-1000'>
       <div className='flex items-center justify-between gap-4 z-40' >
         <img className='w-10' src={weblogo} alt="weblogo" />
@@ -57,7 +73,6 @@ const UserNav = () => {
       </div>
     </div>
     <Outlet/>
-    </div>
     </>
   )
 }

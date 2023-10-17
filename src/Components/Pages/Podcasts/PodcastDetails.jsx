@@ -24,11 +24,9 @@ const PodcastDetails = () => {
     const [currentAudio, setCurrentAudio] = useState('');
     console.log(currentAudio);
 
-
-    
     const podcastsEpisodes = useSelector((state) => state.podcastEpisodes)
-    const { id } = useParams();
 
+    const { id } = useParams();
 
      useEffect(() => {
         if (id) {
@@ -65,7 +63,6 @@ const PodcastDetails = () => {
             (querySnapshot) => {
               const podcastEpisodesData = []
               querySnapshot.forEach((doc) => {
-                console.log(doc.data());
                 podcastEpisodesData.push({ ...doc.data(), id: doc.id })
               })
               dispatch(setPodcastEpisodes(podcastEpisodesData))
@@ -134,6 +131,7 @@ const PodcastDetails = () => {
                                         title={episod.episodTitle}
                                         setClickedCardId={setCurrentAudio}
                                         audioInfoObj={episod}
+                                        id={episod.id}
                                     /> 
                                 )
                             }) :
