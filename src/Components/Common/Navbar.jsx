@@ -9,7 +9,7 @@ const Navbar = () => {
           <img src={weblogo} alt="logo" className='w-8'/>
           <h1 className='text-2xl font-bold'>POD-X</h1>
       </div>
-        <div className='flex items-center justify-between gap-2'>
+        <div className='flex items-center justify-between md:gap-8 gap-4'>
           <NavLink to='/' className={'text-[16px] font-medium'}>Signup</NavLink>
           <NavLink to='/login' className={'text-[16px] font-medium'}>Login</NavLink>
         </div>

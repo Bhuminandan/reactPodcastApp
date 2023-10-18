@@ -31,6 +31,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isPassWordVisible, setIsPasswordVisible] = useState(false)
   const [isConfirmPassWordVisible, setIsConfirmPasswordVisible] = useState(false)
+  const [isPrivacyAgreeChecked, setIsPrivacyAgreeChecked] = useState(false)
  
   
   // handle submit function
@@ -83,6 +84,20 @@ const Signup = () => {
 
     if (!isProfilePicSelected) {
       toast.error('Please upload a profile picture', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+
+    if (!isPrivacyAgreeChecked) {
+      toast.error('Please agree the privacy first...', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -196,7 +211,7 @@ const Signup = () => {
   return (
     <>
     <Navbar />
-    <div className='mt-10 flex flex-col items-center justify-center gap-4 text-slate-600 w-72 md:w-1/2 m-auto h-auto'>
+    <div className='mt-10 pb-20 flex flex-col items-center justify-center gap-4 text-slate-600 w-72 md:w-1/2 m-auto h-auto'>
       <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -280,6 +295,12 @@ const Signup = () => {
         disabled={isLoading}
         />
       </form>
+      <div className='flex items-center justify-center gap-4'>
+        <input type="checkbox" id='privacy-checkbox' onChange={() => setIsPrivacyAgreeChecked(prev => !prev)}
+        checked={isPrivacyAgreeChecked}
+        />
+        <label htmlFor="privacy-checkbox">Agree to the privacy policy <NavLink to={'/privacy-policy'} className={'text-teal-400 font-medium underline'}>Privacy Policy</NavLink></label>
+      </div>
       <p>Already have an account? <NavLink to={'/login'} className={'text-teal-400 font-medium underline'}>Login</NavLink></p>
       <p>Forgot Passward? <NavLink to={'/forgot-pass'} className={'text-teal-400 font-medium underline'}>Reset Passward</NavLink></p>
     </div>

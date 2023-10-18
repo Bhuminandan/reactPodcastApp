@@ -11,7 +11,8 @@ import { setUser } from './slices/userSlice'
 import { onSnapshot } from 'firebase/firestore';
 import { ToastContainer } from 'react-toastify';
 import React, { Suspense, lazy } from 'react';
-import Loader from './Components/Common/Loader';
+import PageLoader from './Components/Common/PageLoader';
+import Privacy from './Components/Pages/Legal/Privacy';
 
 const Auth = lazy(() => import('./Components/Auth/Auth'));
 const Login = lazy(() => import('./Components/Auth/Login'));
@@ -73,16 +74,17 @@ function App() {
   }, [dispatch])
 
   return (
-    <div className="w-screen pb-10 min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-emerald-950 via-black to-black">
+    <div className="w-screen min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-emerald-950 via-black to-black">
       <ToastContainer />
       {
         isPlayerVisible && currentPlayer === 'small' && <AudioPlayer />
       }
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<Auth />} />
           <Route path="/login" element={<Login />} />
           <Route path='/forgot-pass' element={<ForgotPass />} />
+          <Route path='/privacy-policy' element={<Privacy />} />
           <Route element={<PrivateRoutes />} >
             <Route path="/user" element={<UserNav />} >
               <Route path="" element={<Podcasts />} />

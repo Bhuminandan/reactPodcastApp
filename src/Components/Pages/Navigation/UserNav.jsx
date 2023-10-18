@@ -5,6 +5,7 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleMobNavOpen } from '../../../slices/commonSlices'
 import {IoChevronBack} from 'react-icons/io5'
+import Footer from './Footer'
 
 const UserNav = () => {
 
@@ -45,6 +46,9 @@ const UserNav = () => {
         <NavLink to='/user/details' className={' pl-10 mr-2 w-full text-4xl py-2 px-2 rounded-md hover:bg-stone-900 transition-all duration-300 text-[16px] font-medium'}
         onClick={() => dispatch(toggleMobNavOpen())}
         >Profile</NavLink>
+        <NavLink to='/privacy-policy' className={' pl-10 mr-2 w-full text-4xl py-2 px-2 rounded-md hover:bg-stone-900 transition-all duration-300 text-[16px] font-medium'}
+        onClick={() => dispatch(toggleMobNavOpen())}
+        >Privacy</NavLink>
       </div>
       {
        isMobMenuOpen ?
@@ -72,7 +76,8 @@ const UserNav = () => {
       <NavLink to='/user/details' className={'py-2 px-2 rounded-lg hover:bg-stone-900 transition-all duration-300 text-[16px] font-medium'}>Profile</NavLink>
       </div>
     </div>
-    <Outlet/>
+      <Outlet/>
+    <Footer/>
     </>
   )
 }
