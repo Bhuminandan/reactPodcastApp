@@ -55,7 +55,8 @@ function App() {
                 name: userData.name,
                 email: userData.email,
                 profilePic: userData.profilePic,
-                uid: userData.uid
+                uid: userData.uid,
+                favorites: userData.favorites
               })
               );
             }
@@ -100,6 +101,7 @@ function App() {
               <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />
               <Route path="details" element={<Profile />} />
               <Route path='create-podcast' element={<CreatePodcast />} />
+              <Route path='privacy-policy' element={<Privacy />} />
             </Route>
           </Route>
         </Routes>

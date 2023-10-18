@@ -106,7 +106,7 @@ const EditProfilePage = () => {
             setIsLoading(false)
         }
             
-        }
+    }
   return (
     <div className='flex flex-col items-start justify-start gap-4 max-w-screen-lg min-h-screen px-5 md:px-10 m-auto'>
       <h1 className='text-4xl font-bold text-gray-600 mt-10'>Edit Profile</h1>

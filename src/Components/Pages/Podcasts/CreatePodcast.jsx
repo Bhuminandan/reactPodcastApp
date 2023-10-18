@@ -186,7 +186,7 @@ const CreatePodcast = () => {
   return (
     <div className='flex items-start justify-center w-screen min-h-screen max-w-screen-xl text-green-100 m-auto'>
         <div className="left h-full w-full md:w-1/2 px-10 py-10">
-            <PageHeader
+        <PageHeader
             title={'Create Podcast Collection'}
             mt={'0'}
             mb={'10'}

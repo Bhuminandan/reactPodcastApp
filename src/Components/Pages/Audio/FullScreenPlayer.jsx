@@ -19,6 +19,7 @@ const FullScreenPlayer = () => {
               <h2 className='text-2xl text-slate-600 font-bold self-start'>{episodTitle}</h2>
               <AudioPlayer
                 src={audioFile}
+                autoPlay
                 />
             </div>
               <div className='mt-10 text-sm text-slate-500 max-w-screen-sm overflow-hidden h-auto'>

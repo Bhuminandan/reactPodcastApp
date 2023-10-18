@@ -1,11 +1,9 @@
 import React from 'react'
 import PageHeader from '../../Common/PageHeader'
-import Navbar from '../../Common/Navbar'
 
 const Privacy = () => {
   return (
     <>
-    <Navbar/>
     <div className="max-w-screen-lg m-auto min-h-screen p-8 text-green-200">
     <div className="container mx-auto">
       <header className='pt-20'>

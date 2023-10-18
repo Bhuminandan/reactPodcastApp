@@ -146,14 +146,16 @@ const Signup = () => {
             name: fullName,
             email: user.email,
             profilePic: profilePicUrl,
-            uid: user.uid
+            uid: user.uid,
+            favorites: []
           })
           
           dispatch(setUser({
             name: fullName,
             email: user.email,
             profilePicUrl: profilePicUrl,
-            uid: user.uid
+            uid: user.uid,
+            favorites: []
           }))
           
           setIsLoading(false)

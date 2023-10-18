@@ -13,12 +13,15 @@ import Search from '../../Common/Search'
 
 const Podcasts = () => {
   
-    const dispatch = useDispatch()
-    const podcasts = useSelector((state) => state.podcastsSlice)
-    const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch()
+  const podcasts = useSelector((state) => state.podcastsSlice)
+  const favorites = useSelector((state) => state.userSlice.user?.favorites)
+  const [isLoading, setIsLoading] = useState(false);
+  const [filteredPodcasts, setFilteredProducts] = useState(podcasts)
 
-    const [filteredPodcasts, setFilteredProducts] = useState(podcasts)
-
+  useEffect(() => {
+    setFilteredProducts(podcasts)
+  }, [podcasts])
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,6 +44,8 @@ const Podcasts = () => {
     }
 
   }, [dispatch])
+
+  useEffect(() => {}, [favorites, podcasts, filteredPodcasts])
 
   
   if(isLoading) {
@@ -66,6 +71,8 @@ const Podcasts = () => {
                 {
                    filteredPodcasts.length !== 0 ? 
                    filteredPodcasts?.map((podcast) => {
+                    console.log(favorites);
+                    console.log(favorites.includes(podcast.id))
                     return (
                       <PodcastCard
                         key={podcast.id}
@@ -75,6 +82,7 @@ const Podcasts = () => {
                         id={podcast.id}
                         creatorName={podcast?.creatorName}
                         createdOn={timeCalculator(podcast.createdOn)}
+                        isUserLiked={favorites?.includes(podcast.id)}
                         />
                     )
                   })
