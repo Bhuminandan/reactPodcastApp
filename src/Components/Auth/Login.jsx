@@ -3,7 +3,6 @@ import AuthInput from './AuthInput'
 import CustomeBtn from '../Common/CustomeBtn'
 import { NavLink } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
-import Navbar from '../Common/Navbar'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../../slices/userSlice'
 import { signInWithEmailAndPassword } from 'firebase/auth'
@@ -112,7 +111,6 @@ const handleSubmit = (e) => {
 
   return (
     <>
-      <Navbar />
     <div className='flex flex-col items-center justify-center gap-4 text-slate-600 w-72 md:w-96 m-auto mt-10'>
     <ToastContainer
           position="top-right"

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Navbar from '../Common/Navbar'
 import CommonInput from '../Common/CommonInput'
 import CustomeBtn from '../Common/CustomeBtn'
 import { toast } from 'react-toastify'
@@ -46,7 +45,6 @@ const handleResetSubmit = async (e) => {
 
   return (
     <>
-    <Navbar/>
     <div className='w-screen min-h-screen'>
         <form 
         className='flex flex-col items-start justify-start max-w-screen-md m-auto h-full md:px-20 px-5'>
@@ -65,7 +63,7 @@ const handleResetSubmit = async (e) => {
             />
             <p className='text-gray-500 text-center text-sm m-auto mt-5'>On Clicking you will recieve Passward reset link on <span className='font-bold'>{email}</span></p>
             <p className='text-gray-500 text-center text-sm m-auto mt-2'>Please ensure that you enter the email address you used during the signup process.</p>
-            <p className='text-gray-500 text-center text-sm m-auto mt-5'>Don't have an account? <NavLink to='/' className='text-teal-400 font-medium underline'>Signup</NavLink></p>
+            <p className='text-gray-500 text-center text-sm m-auto mt-5'>Don't have an account? <NavLink to='/signup' className='text-teal-400 font-medium underline'>Signup</NavLink></p>
         </form>
     </div>
     </>

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import Signup from './Signup'
+import React from 'react'
+import Navbar from '../Common/Navbar'
 
 const Auth = () => {
   return (
     <>
     <div>
-      <Signup/>
+      <Navbar/>
     </div>
     </>
   )

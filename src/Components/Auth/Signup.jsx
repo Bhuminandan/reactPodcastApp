@@ -3,7 +3,6 @@ import AuthInput from './AuthInput'
 import CustomeBtn from '../Common/CustomeBtn'
 import { NavLink} from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
-import Navbar from '../Common/Navbar';
 import { useDispatch } from 'react-redux'
 import {setUser} from '../../slices/userSlice.js'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -210,7 +209,6 @@ const Signup = () => {
 
   return (
     <>
-    <Navbar />
     <div className='mt-10 pb-20 flex flex-col items-center justify-center gap-4 text-slate-600 w-72 md:w-1/2 m-auto h-auto'>
       <ToastContainer
           position="top-right"

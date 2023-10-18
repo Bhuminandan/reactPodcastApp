@@ -71,6 +71,7 @@ const Profile = () => {
         progress: undefined,
         theme: "dark",
       })      
+      navigate('/login')
     } catch (error) {
       toast.error('Something went wrong')
     }
@@ -151,11 +152,11 @@ const Profile = () => {
                     src={emptyill} alt="empty" />
 
                     <div className='flex items-center justify-center mt-10 mb-20'>
-                    <CustomeBtn
-                    type={'submit'}
-                    action={() => navigate('/user/create-podcast')}
-                    btnText={'Create Your First Podcast'}
-                    />
+                        <CustomeBtn
+                        type={'submit'}
+                        action={() => navigate('/user/create-podcast')}
+                        btnText={'Create Your First Podcast'}
+                        />
                     </div>
                   </div>
                 }

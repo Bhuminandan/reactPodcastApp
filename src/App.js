@@ -13,8 +13,10 @@ import { ToastContainer } from 'react-toastify';
 import React, { Suspense, lazy } from 'react';
 import PageLoader from './Components/Common/PageLoader';
 import Privacy from './Components/Pages/Legal/Privacy';
+import Home from './Components/Landing/Home';
+import Navbar from './Components/Common/Navbar';
 
-const Auth = lazy(() => import('./Components/Auth/Auth'));
+const Signup = lazy(() => import('./Components/Auth/Signup'))
 const Login = lazy(() => import('./Components/Auth/Login'));
 const Profile = lazy(() => import('./Components/Pages/Profile/Profile'));
 const AudioPlayer = lazy(() => import('./Components/Pages/Audio/AudioPlayer'));
@@ -81,10 +83,13 @@ function App() {
       }
       <Suspense fallback={<PageLoader />}>
         <Routes>
-          <Route path="/" element={<Auth />} />
-          <Route path="/login" element={<Login />} />
-          <Route path='/forgot-pass' element={<ForgotPass />} />
-          <Route path='/privacy-policy' element={<Privacy />} />
+          <Route path='/' element={<Navbar />} >
+            <Route path='' element={<Home />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="login" element={<Login />} />
+            <Route path='forgot-pass' element={<ForgotPass />} />
+            <Route path='privacy-policy' element={<Privacy />} />
+          </Route>
           <Route element={<PrivateRoutes />} >
             <Route path="/user" element={<UserNav />} >
               <Route path="" element={<Podcasts />} />
