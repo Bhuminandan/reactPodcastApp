@@ -9,15 +9,17 @@ import { toast } from 'react-toastify'
 import PodcastCard from './PodcastCard'
 import timeCalculator from '../../../Util/tImeCalculator'
 import PageHeader from '../../Common/PageHeader'
-
+import Search from '../../Common/Search'
 
 const Podcasts = () => {
+  
+    const dispatch = useDispatch()
+    const podcasts = useSelector((state) => state.podcastsSlice)
+    const [isLoading, setIsLoading] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+    const [filteredPodcasts, setFilteredProducts] = useState(podcasts)
 
-  const dispatch = useDispatch()
-  const podcasts = useSelector((state) => state.podcastsSlice)
- 
+
   useEffect(() => {
     setIsLoading(true);
     try {
@@ -40,6 +42,7 @@ const Podcasts = () => {
 
   }, [dispatch])
 
+  
   if(isLoading) {
     return (
       <div>
@@ -51,13 +54,18 @@ const Podcasts = () => {
   return (
    <div>
           <div className=' max-w-screen-xl m-auto min-h-screen flex flex-col items-start justify-start px-5 mb-40'>
+            <Search
+              searchFrom={podcasts}
+              onChange={setFilteredProducts}
+            />
             <PageHeader 
               title='Podcasts Collections'
             />
             {
               <div className='flex flex-wrap items-start justify-start gap-4'>
                 {
-                  podcasts.map((podcast) => {
+                   filteredPodcasts.length !== 0 ? 
+                   filteredPodcasts?.map((podcast) => {
                     return (
                       <PodcastCard
                         key={podcast.id}
@@ -70,6 +78,10 @@ const Podcasts = () => {
                         />
                     )
                   })
+                  :
+                  <div className='text-xl text-white'>
+                      No results...
+                  </div>
                 }
               </div>
             }
