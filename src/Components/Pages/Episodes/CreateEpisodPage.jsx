@@ -164,7 +164,7 @@ const CreateEpisodPage = () => {
 
   return (
     <div className='w-screen min-h-screen'>
-        <div className=' max-w-screen-2xl h-full md:px-10 px-5 mt-10 w-full m-auto'>
+        <div className=' max-w-screen-xl h-full md:px-10 px-5 mt-10 w-full m-auto'>
             <PageHeader
             title={'Create Episode'}
             />

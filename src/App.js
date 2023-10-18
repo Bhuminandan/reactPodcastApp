@@ -1,8 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import Auth from './Components/Auth/Auth';
-import Login from './Components/Auth/Login';
-import Profile from './Components/Pages/Profile/Profile';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -13,16 +10,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './slices/userSlice'
 import { onSnapshot } from 'firebase/firestore';
 import { ToastContainer } from 'react-toastify';
-import AudioPlayer from './Components/Pages/Audio/AudioPlayer';
-import PrivateRoutes from './Components/Pages/PrivateRoutes/PrivateRoutes';
-import UserNav from './Components/Pages/Navigation/UserNav';
-import EditProfilePage from './Components/Pages/Profile/EditProfilePage';
-import PodcastDetails from './Components/Pages/Podcasts/PodcastDetails';
-import CreateEpisodPage from './Components/Pages/Episodes/CreateEpisodPage';
-import CreatePodcast from './Components/Pages/Podcasts/CreatePodcast';
-import Podcasts from './Components/Pages/Podcasts/Podcasts';
-import ForgotPass from './Components/Auth/ForgotPass';
-import FullScreenPlayer from './Components/Pages/Audio/FullScreenPlayer';
+import React, { Suspense, lazy } from 'react';
+import Loader from './Components/Common/Loader';
+
+const Auth = lazy(() => import('./Components/Auth/Auth'));
+const Login = lazy(() => import('./Components/Auth/Login'));
+const Profile = lazy(() => import('./Components/Pages/Profile/Profile'));
+const AudioPlayer = lazy(() => import('./Components/Pages/Audio/AudioPlayer'));
+const PrivateRoutes = lazy(() => import('./Components/Pages/PrivateRoutes/PrivateRoutes'));
+const UserNav = lazy(() => import('./Components/Pages/Navigation/UserNav'));
+const EditProfilePage = lazy(() => import('./Components/Pages/Profile/EditProfilePage'));
+const PodcastDetails = lazy(() => import('./Components/Pages/Podcasts/PodcastDetails'));
+const CreateEpisodPage = lazy(() => import('./Components/Pages/Episodes/CreateEpisodPage'));
+const CreatePodcast = lazy(() => import('./Components/Pages/Podcasts/CreatePodcast'));
+const Podcasts = lazy(() => import('./Components/Pages/Podcasts/Podcasts'));
+const ForgotPass = lazy(() => import('./Components/Auth/ForgotPass'));
+const FullScreenPlayer = lazy(() => import('./Components/Pages/Audio/FullScreenPlayer'));
 
 
 
@@ -31,7 +34,6 @@ function App() {
 
   const dispatch = useDispatch()
   const isPlayerVisible = useSelector((state) => state.audioSlice.isPlayerVisible)
-  const currentAudio = useSelector((state) => state.audioSlice.currentAudio)
   const currentPlayer = useSelector((state) => state.audioSlice.currentPlayer)
 
   useEffect(() => {
@@ -76,23 +78,25 @@ function App() {
       {
         isPlayerVisible && currentPlayer === 'small' && <AudioPlayer />
       }
-      <Routes>
-        <Route path="/" element={<Auth />} />
-        <Route path="/login" element={<Login />} />
-        <Route path='/forgot-pass' element={<ForgotPass />} />
-        <Route element={<PrivateRoutes />} >
-          <Route path="/user" element={<UserNav />} >
-            <Route path="" element={<Podcasts />} />
-            <Route path=':id/edit-profile' element={<EditProfilePage />} />
-            <Route path="podcasts" element={<Podcasts />} />
-            <Route path="podcasts/:id" element={<PodcastDetails />} />
-            <Route path='podcasts/episode/:id' element={<FullScreenPlayer />} />
-            <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />
-            <Route path="details" element={<Profile />} />
-            <Route path='create-podcast' element={<CreatePodcast />} />
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Auth />} />
+          <Route path="/login" element={<Login />} />
+          <Route path='/forgot-pass' element={<ForgotPass />} />
+          <Route element={<PrivateRoutes />} >
+            <Route path="/user" element={<UserNav />} >
+              <Route path="" element={<Podcasts />} />
+              <Route path=':id/edit-profile' element={<EditProfilePage />} />
+              <Route path="podcasts" element={<Podcasts />} />
+              <Route path="podcasts/:id" element={<PodcastDetails />} />
+              <Route path='podcasts/episode/:id' element={<FullScreenPlayer />} />
+              <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />
+              <Route path="details" element={<Profile />} />
+              <Route path='create-podcast' element={<CreatePodcast />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </Suspense>
     </div>
   );
 }

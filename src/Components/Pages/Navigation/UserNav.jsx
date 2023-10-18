@@ -26,7 +26,7 @@ const UserNav = () => {
       :
       <div 
       onClick={handleBackClick}
-      className='text-white ml-16 text-xl hidden lg:block cursor-pointer md:text-3xl absolute top-24 hover:bg-slate-900 p-4 rounded-full transition-all duration-300'>
+      className='text-white ml-14 text-xl hidden lg:block cursor-pointer md:text-3xl absolute top-24 hover:bg-slate-900 p-4 rounded-full transition-all duration-300'>
         <IoChevronBack/>
       </div>
     }
