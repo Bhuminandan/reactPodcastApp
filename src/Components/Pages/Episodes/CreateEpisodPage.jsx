@@ -64,7 +64,7 @@ const CreateEpisodPage = () => {
             return
         }
 
-        toast.success('Podcast Episod Creating...', {
+        toast.success('Podcast Episod Creating, Please Wait...', {
             position: "top-right",
             autoClose: 10000,
             hideProgressBar: false,

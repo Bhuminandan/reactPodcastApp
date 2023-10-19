@@ -112,7 +112,7 @@ const Profile = () => {
 
       <h1 className='text-2xl font-bold text-gray-100'>{user.name}</h1>
       <p className='text-gray-400'>{user.email}</p>
-      <div className='flex items-center justify-between gap-2'>
+      <div className='flex items-center justify-between flex-wrap gap-2'>
       <div className='w-22'>
         <CustomeBtn
         type={'submit'}

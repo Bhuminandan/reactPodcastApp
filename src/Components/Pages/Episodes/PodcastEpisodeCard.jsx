@@ -18,16 +18,17 @@ const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj, id}) => {
     // Checking if someone is clicking the same audio card again
     if(currentAudio.id === audioInfoObj.id) return;
 
+
     dispatch(setCurrentAudio(audioInfoObj));
 
     // Checking if someone is clicking the same audio card again making the isPlaying false to toggle icon
     if (isPlaying) {
       dispatch(toggleIsPlaying())
-      
     }
 
     // Setting the current player as small
     dispatch(setCurrentPlayer('small'));
+
 
     // Making the player visible
     if (!isPlayerVisible) {
@@ -47,19 +48,19 @@ const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj, id}) => {
   return (
     <div className='md:w-96 md:h-72 w-full h-96 border-gray-900 border-2 bg-zinc-950 hover:bg-zinc-900 transition-all duration-300 cursor-pointer flex flex-col items-start justify-between p-5 rounded-xl overflow-hidden'>
         <img 
-        className='w-full h-3/4 object-cover rounded-lg'
+        className='w-full h-3/4 object-cover rounded-lg mb-2'
         src={bannerImg} alt="episode" />
-        <div className='w-full flex items-center justify-between'>
-        <p className='text-xl font-bold text-gray-500'>{title}</p>
-        <div className='flex items-center justify-center gap-2'>
-        <AiFillPlayCircle
-        onClick={handleEpisodePlayBtnClick}
-        className='text-5xl rounded-full shadow-sm shadow-black text-green-500 hover:scale-105 duration-300 transition-all cursor-pointer active:transform active:translate-y-1'
-        />
-        <TbPlayerStop
-        onClick={handleFullScreenClick}
-        className='text-5xl rounded-full shadow-sm shadow-black text-green-500 hover:scale-105 duration-300 transition-all cursor-pointer active:transform active:translate-y-1'
-        />
+        <div className='w-full flex items-center justify-between gap-4'>
+          <p className='md:text-lg text-sm font-bold text-gray-500'>{title}</p>
+          <div className='flex items-center justify-center gap-2'>
+          <AiFillPlayCircle
+          onClick={handleEpisodePlayBtnClick}
+          className='text-5xl rounded-full shadow-sm shadow-black text-green-500 hover:scale-105 duration-300 transition-all cursor-pointer active:transform active:translate-y-1'
+          />
+          <TbPlayerStop
+          onClick={handleFullScreenClick}
+          className='text-5xl rounded-full shadow-sm shadow-black text-green-500 hover:scale-105 duration-300 transition-all cursor-pointer active:transform active:translate-y-1'
+          />
         </div>
         </div>
         

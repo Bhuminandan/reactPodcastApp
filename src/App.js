@@ -79,11 +79,11 @@ function App() {
 
   return (
     <div className="w-screen min-h-screen bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-emerald-950 via-black to-black">
-      <ToastContainer />
-      {
-        isPlayerVisible && currentPlayer === 'small' && <AudioPlayer />
-      }
       <Suspense fallback={<PageLoader />}>
+        <ToastContainer />
+        {
+          isPlayerVisible && currentPlayer === 'small' && <AudioPlayer />
+        }
         <Routes>
           <Route path='/' element={<Navbar />} >
             <Route path='' element={<Home />} />

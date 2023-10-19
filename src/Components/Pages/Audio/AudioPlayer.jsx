@@ -5,6 +5,7 @@ import { AiFillPlayCircle, AiFillPauseCircle, AiFillCloseCircle } from 'react-ic
 import { BsFillFastForwardFill } from 'react-icons/bs'
 import { IoPlayBack } from 'react-icons/io5'
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill } from 'react-icons/bs'
+import timeFormatter from '../../../Util/timeFormatter'
 
 const AudioPlayer = () => {
 
@@ -20,11 +21,11 @@ const AudioPlayer = () => {
 
     const handleTimeUpdata = (e) => {
         setCurrentDuration(Number(e.target.currentTime));
-        setAudioDuration(Number(e.target.duration));
     }
-
+    
     const handleLoadMetaDeta = (e) => {
-        setCurrentDuration(Number(e.target.duration));
+        setAudioDuration(timeFormatter(Number(e.target.duration)));
+        setCurrentDuration(Number(e.target.currentTime));
     }
 
     const handleEnded = () => {
@@ -93,7 +94,7 @@ const AudioPlayer = () => {
                     src={currentAudio.bannerImg} 
                     alt="Auio banner" 
                 />
-                <h4 className='text-white text-lg font-medium hidden sm:flex'>{currentAudio.episodTitle}</h4>
+                <h4 className='text-white text-lg font-medium hidden md:flex'>{currentAudio.episodTitle}</h4>
             </div>
 
             <div className='flex items-center gap-5'>
@@ -125,7 +126,7 @@ const AudioPlayer = () => {
                
                <div className='items-center gap-5 text-green-300 font-medium hidden md:flex'>
 
-                <p>{currentDuration.toFixed(0)}</p>
+                <p>{currentDuration?.toFixed(0)}</p>
                     <audio 
                         ref={audioRef}
                         autoPlay
@@ -145,7 +146,7 @@ const AudioPlayer = () => {
                     className='lg:w-96 md:w-36 cursor-pointer slider'
                 />
 
-                <p>{audioDuration.toFixed(0)}</p>
+                <p>{audioDuration}</p>
                </div>
             </div>
                <div className='flex items-center mr-2 text-green-300 '>
