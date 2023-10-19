@@ -1,7 +1,9 @@
 import React from 'react'
 
-const Loader = ({classess}) => {
+const Loader = () => {
   return (
+
+    // Loader for buttons
     <span className='loader'></span>
   )
 }

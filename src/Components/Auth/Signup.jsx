@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import AuthInput from './AuthInput'
 import CustomeBtn from '../Common/CustomeBtn'
 import { NavLink} from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
+import showToast from '../../Util/showToast'
+import showSuccessToast from '../../Util/showSuccessToast'
+import showErrorToast from '../../Util/showErrorToast'
 import { useDispatch } from 'react-redux'
 import {setUser} from '../../slices/userSlice.js'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -12,6 +14,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import FileInput from '../Common/FileInput';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import PageHeader from '../Common/PageHeader';
 
 
 const Signup = () => {
@@ -39,101 +42,48 @@ const Signup = () => {
 
     // validation
     if (!email || !password || !confirmPassword) {
-      toast.error('Please fill all the fields', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      showErrorToast('Please fill all the fields', 3000)
       return;
       
     }
 
     if (password.length < 8) {
-      toast.error('Password must be at least 8 characters', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      showErrorToast('Password must be at least 8 characters', 3000)
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      showErrorToast('Passwords do not match', 3000)
       return;
     }
 
     if (!isProfilePicSelected) {
-      toast.error('Please upload a profile picture', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      showErrorToast('Please select a profile pic', 3000)
       return;
     }
 
     if (!isPrivacyAgreeChecked) {
-      toast.error('Please agree the privacy first...', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      showErrorToast('Please agree to the terms and conditions', 3000)
       return;
     }
 
     // signing up toast
-    toast('🦄Creating Account ...', {
-      position: "top-right",
-      autoClose: 8000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
+    showToast('🦄Creating Account ...', 8000)
 
     
     // signing up with fire base
     const handleSignUp = async () => {
       setIsLoading(true)
-
       try {
 
-        // Creating sers account
-          const userCredential = await createUserWithEmailAndPassword(
+        // Creating users account
+          const userCredential = await createUserWithEmailAndPassword( // createUserWithEmailAndPassword is Inbuilt method
             auth,
             email,
             password
           )
+
+          // getting user details once signed up
           const user = userCredential.user;
 
           // uploading profile pic
@@ -150,6 +100,7 @@ const Signup = () => {
             favorites: []
           })
           
+          // setting user details in redux
           dispatch(setUser({
             name: fullName,
             email: user.email,
@@ -159,46 +110,32 @@ const Signup = () => {
           }))
           
           setIsLoading(false)
+          showSuccessToast('Account created successfully', 3000)
 
           // redirecting user to profile on successful signup
           navigate('/user/podcasts')
           
       } catch (error) {
-        console.log(error);
-        if (error.code === 'auth/email-already-in-use') {
-          toast.error('User exists, try to Login... >>>', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          setTimeout(() => {
-            navigate('/login')
-          }, 3000);
-        }
-          else {     
-            toast.error( error.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            });
-          }
-        setIsLoading(false)
+
+            // error handling 
+            console.log(error);
+
+            if (error.code === 'auth/email-already-in-use') {
+              showErrorToast('User exists, try to Login... >>>', 3000)
+              setTimeout(() => {
+                navigate('/login')
+              }, 3000);
+            }
+
+
+      else { // error handling if something goes wrong     
+
+          showErrorToast('Something went wrong', 3000)
+          setIsLoading(false)
+
       }
 
     }
-
-    // calling handleSignUp
-    handleSignUp();
 
     // Clearing the input fields
     setFullName('')
@@ -209,27 +146,25 @@ const Signup = () => {
     setProfilePic('')
   }
 
+  // calling handleSignUp
+  handleSignUp();
+}
+
   return (
     <>
     <div className='mt-10 pb-20 flex flex-col items-center justify-center gap-4 text-slate-600 w-72 md:w-1/2 m-auto h-auto'>
-      <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      <h1 className='text-center text-2xl md:text-4xl font-bold'>Signup</h1>
+
+      {/* Page header */}
+      <PageHeader title={'Sign Up'} mt={0} mb={5} />
+
+      {/* Signup form */}
       <form 
       onSubmit={handleSubmit}
       className='flex flex-col items-start justify-center gap-2 w-full'>
 
+
         <div className='flex items-center justify-between gap-2 flex-wrap w-full md:flex-nowrap'>
+
           <div className='w-full'>
             <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Full Name</h3>
             <AuthInput
@@ -240,6 +175,7 @@ const Signup = () => {
               isPasswordInput={false}
             />
           </div>
+
           <div className='w-full'>
             <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Email</h3>
             <AuthInput
@@ -250,9 +186,11 @@ const Signup = () => {
               isPasswordInput={false}
             />
           </div>
+
         </div>
 
         <div className='flex items-center justify-between gap-2 flex-wrap w-full lg:flex-nowrap'>
+
           <div className='w-full'>
               <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Password</h3>
               <AuthInput
@@ -265,6 +203,7 @@ const Signup = () => {
                 setIsPasswordVisible={setIsPasswordVisible}
               />
           </div>
+
           <div className='w-full'>
             <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Confirm Password</h3>
             <AuthInput
@@ -277,16 +216,17 @@ const Signup = () => {
               setIsPasswordVisible={setIsConfirmPasswordVisible}
             />
           </div>
+
         </div>
 
        <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Profile Pic</h3>
-        <FileInput
-        accept={'iamage/*'}
-        onChange={setProfilePic}
-        value={'Upload Profile Pic'}
-        id={'profilePic'}
-        isFileSelected={isProfilePicSelected}
-        setIsFileSelected={setIsProfilePicSelected}
+          <FileInput
+          accept={'iamage/*'}
+          onChange={setProfilePic}
+          value={'Upload Profile Pic'}
+          id={'profilePic'}
+          isFileSelected={isProfilePicSelected}
+          setIsFileSelected={setIsProfilePicSelected}
         />
 
         <CustomeBtn
@@ -294,18 +234,22 @@ const Signup = () => {
         type={'submit'}
         disabled={isLoading}
         />
+
       </form>
+
+      {/* Privacy Policy */}
       <div className='flex items-center justify-center gap-4'>
         <input type="checkbox" id='privacy-checkbox' onChange={() => setIsPrivacyAgreeChecked(prev => !prev)}
         checked={isPrivacyAgreeChecked}
         />
         <label htmlFor="privacy-checkbox">Agree to the privacy policy <NavLink to={'/privacy-policy'} className={'text-teal-400 font-medium underline'}>Privacy Policy</NavLink></label>
       </div>
+
+      {/* Login and forgot passward links */}
       <p>Already have an account? <NavLink to={'/login'} className={'text-teal-400 font-medium underline'}>Login</NavLink></p>
       <p>Forgot Passward? <NavLink to={'/forgot-pass'} className={'text-teal-400 font-medium underline'}>Reset Passward</NavLink></p>
+
     </div>
     </>
-  )
-}
-
-export default Signup
+  )}
+export default Signup;

@@ -2,6 +2,8 @@ import React from 'react'
 import Wave from 'react-wavify'
 
 const WaveAnimation = () => {
+
+  // wawe animation for the landing page
   return (
     <>
         <Wave mask="url(#mask)" fill="#172554" >
