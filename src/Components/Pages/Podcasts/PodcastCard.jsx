@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'

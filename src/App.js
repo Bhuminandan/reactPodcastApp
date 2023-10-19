@@ -15,6 +15,7 @@ import PageLoader from './Components/Common/PageLoader';
 import Privacy from './Components/Pages/Legal/Privacy';
 import Home from './Components/Landing/Home';
 import Navbar from './Components/Common/Navbar';
+import Favorites from './Components/Pages/UserItems/Favorites';
 
 const Signup = lazy(() => import('./Components/Auth/Signup'))
 const Login = lazy(() => import('./Components/Auth/Login'));
@@ -101,6 +102,7 @@ function App() {
               <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />
               <Route path="details" element={<Profile />} />
               <Route path='create-podcast' element={<CreatePodcast />} />
+              <Route path='favorites' element={<Favorites />} />
               <Route path='privacy-policy' element={<Privacy />} />
             </Route>
           </Route>

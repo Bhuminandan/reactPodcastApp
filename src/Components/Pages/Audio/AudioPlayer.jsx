@@ -40,9 +40,9 @@ const AudioPlayer = () => {
         audio.addEventListener('ended', (e) => handleEnded(e))
 
         return () => {
-            audio.removeEventListener('timeupdate', (e) => handleTimeUpdata(e))
-            audio.removeEventListener('loadedmetadata', (e) => handleLoadMetaDeta(e))
-            audio.removeEventListener('ended', (e) => handleEnded(e))
+        audio.removeEventListener('timeupdate', (e) => handleTimeUpdata(e))
+        audio.removeEventListener('loadedmetadata', (e) => handleLoadMetaDeta(e))
+        audio.removeEventListener('ended', (e) => handleEnded(e))
         }
     }, [])
 

@@ -82,6 +82,10 @@ const Profile = () => {
     navigate(`/user/${user.uid}/edit-profile`)
   }
 
+  const handleFavoritesClick = () => {
+    navigate('/user/favorites')
+  }
+
 
   // Showing loader while loading
   if (!user) {
@@ -120,6 +124,14 @@ const Profile = () => {
       <div className='w-22'>
         <CustomeBtn
         type={'submit'}
+        action={handleFavoritesClick}
+        btnText={'Favorites'}
+        disabled={false}
+        />
+      </div>
+      <div className='w-22'>
+        <CustomeBtn
+        type={'submit'}
         action={handleSignOut}
         btnText={'Logout'}
         disabled={false}
@@ -141,7 +153,7 @@ const Profile = () => {
                         id={podcast.id}
                         creatorName={podcast?.creatorName}
                         createdOn={timeCalculator(podcast?.createdOn)}
-                        />
+                      />
                     )
                   })
                   // type, action, btnText, disabled

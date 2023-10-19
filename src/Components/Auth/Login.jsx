@@ -77,6 +77,7 @@ const handleSubmit = (e) => {
           name: userData.name,
           email: userData.email,
           profilePicUrl:userData.profilePic,
+          favorites: userData.favorites,
           uid: userData.uid
         }))
         setIsLoading(false)
