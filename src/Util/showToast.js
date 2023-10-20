@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-
+// common redursable toast showwer function for normal messages
 const showToast = (message, autoCloseTime = 1000) => {
 
     toast(message, {

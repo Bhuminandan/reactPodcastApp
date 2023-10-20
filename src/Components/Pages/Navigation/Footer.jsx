@@ -5,6 +5,7 @@ import weblogo from '../../../data/weblogo.png'
 const Footer = () => {
 
 
+  // Gettting the share url for react-share 
   const shareUrl = window.location.href;
 
   return (

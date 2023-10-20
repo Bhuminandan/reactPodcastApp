@@ -13,13 +13,22 @@ import illustration from '../../../data/illustrations/createEpisodPageIllustrati
 import genres from '../../../data/staticData/genres'
 import GenreButtons from '../../Common/GenreButtons'
 import PageHeader from '../../Common/PageHeader'
+import showErrorToast from '../../../Util/showErrorToast'
+import showToast from '../../../Util/showToast'
+import showSuccessToast from '../../../Util/showSuccessToast'
 
 const CreateEpisodPage = () => {
 
+    // Getting the id from url
     const param = useParams()
+
+    // Geting the navigation ref
     const navigate = useNavigate();
+
+    // Getting the id
     const id = param.id;
 
+    // States for the episod form
     const [episodName, setEpisodName] = useState('')
     const [episodDesc, setEpisodDesc] = useState('')
     const [audioFile, setAudioFile] = useState('')
@@ -29,73 +38,43 @@ const CreateEpisodPage = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [favoriteGenres, setFavoriteGenres] = useState([])
 
+    // handler for form submit
     const handleSubmit = async (e) => {
 
         e.preventDefault();
         setIsLoading(true)
 
+        // Validations
         if (!episodName || !episodDesc || !audioFile || !bannerImg) {
-            toast.error('Please fill all the fields', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            showErrorToast('Please fill all the fields', 1000)
             setIsLoading(false)
             return;
         }
 
-        if (favoriteGenres.length < 3) {
-            toast.error('Please select at least 3 genres', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+        if (favoriteGenres.length < 1) {
+            showErrorToast('Please select at least one genre', 1000)
             setIsLoading(false)
             return
         }
 
-        toast.success('Podcast Episod Creating, Please Wait...', {
-            position: "top-right",
-            autoClose: 10000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        })
+        showToast('Podcast Episod Creating, Please Wait...', 10000)
 
         try{
 
+            // uploading the audio
             const audioRef = ref(storage, `podcasts-episods/${auth.currentUser.uid}/audio/${Date.now()}`)
             await uploadBytes(audioRef, audioFile);
             const audioUrl = await getDownloadURL(audioRef)
 
+            // uploading the banner
             const bannerImgRef = ref(storage, `podcasts-episods/${auth.currentUser.uid}/banners/${Date.now()}`)
             await uploadBytes(bannerImgRef, bannerImg);
             const bannerImgUrl = await getDownloadURL(bannerImgRef)
 
-            toast.success('Audio Uploaded Succusfully', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
 
+            showSuccessToast('Setting up few things...', 1000)
+
+            // creating the episod object
             const episodesData =  {
                 episodTitle: episodName,
                 episodDesc: episodDesc,
@@ -104,20 +83,10 @@ const CreateEpisodPage = () => {
                 bannerImg: bannerImgUrl,
             }
 
-            const docRef = await addDoc(collection(db, "podcasts", id,  "episods"), episodesData);
-            console.log(docRef);
-            
+            // adding the episod in the db
+            await addDoc(collection(db, "podcasts", id,  "episods"), episodesData);            
 
-            toast.success('Podcast Created', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+            showSuccessToast('Podcast Episod Created', 1000)
 
             setIsLoading(false)
 
@@ -127,16 +96,7 @@ const CreateEpisodPage = () => {
 
         }catch(error) {
             console.log(error.message);
-            toast.error(error.message, {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+            showErrorToast('Something went wrong', 1000)
             setIsLoading(false)
         }
 
@@ -147,17 +107,23 @@ const CreateEpisodPage = () => {
         setAudioFile('')
     }
 
+    // handler for genre click
     const handleGenereClick = (e) => {
         if (e) {     
             const genre = e.target.innerText;
+
+            // checking if the genre is already added
             if(favoriteGenres.includes(genre)) {
+                // removing the genre if it is
                 setFavoriteGenres(favoriteGenres.filter(favGenre => favGenre !== genre))
             } else {
+                // adding the genre
                 setFavoriteGenres([...favoriteGenres, genre])
             }
         }
     }
 
+    // Because async nature favoriteGenres was not working properly so we are using this UseEffect
     useEffect(() => {
         handleGenereClick(); 
     }, [favoriteGenres])

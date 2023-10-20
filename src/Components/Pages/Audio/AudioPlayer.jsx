@@ -9,29 +9,37 @@ import timeFormatter from '../../../Util/timeFormatter'
 
 const AudioPlayer = () => {
 
+    // useRef for the audio html tag
     const audioRef = useRef()
 
     const dispatch = useDispatch()
+
+    // Nessassary states
     const isPlaying = useSelector((state) => state.audioSlice.isPlaying)
     const currentAudio = useSelector((state) => state.audioSlice.currentAudio)
     const isMuted = useSelector((state) => state.audioSlice.isMuted)
 
+    // States for the audio
     const [audioDuration, setAudioDuration] = useState(0);
     const [currentDuration, setCurrentDuration] = useState(0);
 
+    // Setting up the current audio time
     const handleTimeUpdata = (e) => {
         setCurrentDuration(Number(e.target.currentTime));
     }
     
+    // Setting up the audio duration and current duration
     const handleLoadMetaDeta = (e) => {
         setAudioDuration(timeFormatter(Number(e.target.duration)));
         setCurrentDuration(Number(e.target.currentTime));
     }
 
+    // Handling the audio ended senario
     const handleEnded = () => {
         dispatch(toggleIsPlaying())
     }
 
+    // useEffect for the audio player
     useEffect(() => {
 
         const audio = audioRef.current;
@@ -40,14 +48,17 @@ const AudioPlayer = () => {
         audio.addEventListener('loadedmetadata', (e) => handleLoadMetaDeta(e))
         audio.addEventListener('ended', (e) => handleEnded(e))
 
+        // Cleaning up the event listeners
         return () => {
         audio.removeEventListener('timeupdate', (e) => handleTimeUpdata(e))
         audio.removeEventListener('loadedmetadata', (e) => handleLoadMetaDeta(e))
         audio.removeEventListener('ended', (e) => handleEnded(e))
         }
+
     }, [])
 
 
+    // Handling the play and pause button
     const handlePlayPauseClick = () => {
         if (!isPlaying) {
             audioRef.current.pause();
@@ -58,6 +69,7 @@ const AudioPlayer = () => {
     }
 
 
+    // Handling the mute and unmute button
     const handleMuteClick = () => {
         if (!isMuted) {
             audioRef.current.volume = 0;
@@ -67,10 +79,12 @@ const AudioPlayer = () => {
         dispatch(tooglgeIsMuted())
     }
 
+    // Setting the current audio time
     const handleDurationChange = (currentAudioTime) => {
         audioRef.current.currentTime = currentAudioTime;
     }
-
+    
+    // Setting the current time on forward click
     const handleForWardClick = (increasedTime) => {
         const updatedTime =  audioRef.current.currentTime + increasedTime;
         if (updatedTime < audioDuration) {
@@ -78,6 +92,7 @@ const AudioPlayer = () => {
         }
     }
 
+    // Setting the current time on backward click
     const handleBackWardClick = (decreasedTime) => {
         const updatedTime =  audioRef.current.currentTime - decreasedTime;
         if (updatedTime > 0 && updatedTime < audioDuration) {

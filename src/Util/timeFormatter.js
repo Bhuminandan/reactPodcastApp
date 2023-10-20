@@ -1,3 +1,5 @@
+
+// Time formatter for the small audio player
 function timeFormatter(seconds) {
     seconds = Math.floor(seconds);
     const hours = Math.floor(seconds / 3600);

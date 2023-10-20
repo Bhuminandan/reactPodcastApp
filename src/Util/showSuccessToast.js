@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-
+// common redursable toast showwer function for success
 const showSuccessToast = (message, autoCloseTime = 1000) => {
 
     toast.success(message, {

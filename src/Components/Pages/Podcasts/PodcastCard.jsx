@@ -1,50 +1,57 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import { toast } from 'react-toastify'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../../slices/userSlice'
+import showSuccessToast from '../../../Util/showSuccessToast'
+
+
 const PodcastCard = ({bannerImg, title, desc, id, creatorName, createdOn, isUserLiked}) => {
 
+  // Getting the navigate
   const navigate = useNavigate()
 
+  // Triming the string if it is longer
   const trimString = (str, n) => {
     return str.length > n ?  str.substring(0, n) + '...' : str.substring(0, n) ;
   }
 
+  // Getting the user
   let user = useSelector((state) => state.userSlice.user)
-  console.log(user);
+
+  // Getting the dispatch ref
   const dispath = useDispatch();
 
+  // On card click handler
   const handleCardClick = () => {
+
+    // Navigating to user to the clicked podcast with id in the url
     navigate(`/user/podcasts/${id}`)
   }
 
+  // Like click handler
   const handleLikeClick = async (e) => {
+
+    // Preventing the default behaviour
     e.stopPropagation() 
 
+    // If the user is already liked the podcast then remove it
     if (isUserLiked) {
-      toast.success('Removed from favorites', {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      })
+      showSuccessToast('Removed from favorites', 1000)
       
+      // Getting the updated list
       const updatedList = user.favorites?.filter((item) => {
         return item !== id
       })
+
+      // Updating the user doc
       await updateDoc(doc(db, 'users', user.uid), {
         favorites: updatedList
       })
 
-
+      // Updating the redux state
       dispath(setUser({
         ...user,
         favorites: updatedList
@@ -52,20 +59,16 @@ const PodcastCard = ({bannerImg, title, desc, id, creatorName, createdOn, isUser
 
 
     } else {
-      toast.success('Added to favorites', {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      
-    })
+
+      // Adding the podcast to the user's favorites
+      showSuccessToast('Added to favorites', 1000)
+
+      // Updating the user doc
       await updateDoc(doc(db, "users", user?.uid), {
         favorites: [...user.favorites, id]
       })
 
+      // Updating the redux state
       dispath(setUser({
           ...user,
           favorites: [...user.favorites, id]

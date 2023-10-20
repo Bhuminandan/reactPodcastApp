@@ -12,28 +12,33 @@ import emptyIllustration from '../../../data/illustrations/emptyIll.svg'
 import PodcastEpisodeCard from '../Episodes/PodcastEpisodeCard';
 import GenresDisplay from '../../Common/GenresDisplay';
 import { nanoid } from '@reduxjs/toolkit';
+import showErrorToast from '../../../Util/showErrorToast';
 
 
 const PodcastDetails = () => {
 
+    // Getting the navigation and dispatch refs
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    // States for the podcast
     const [podcast, setPodcast] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [currentAudio, setCurrentAudio] = useState('');
-    console.log(currentAudio);
 
+    // Getting episodes list
     const podcastsEpisodes = useSelector((state) => state.podcastEpisodes)
 
+    // Getting the id
     const { id } = useParams();
 
+    // Getting data whenever the id changes
      useEffect(() => {
         if (id) {
             getData()
         }
     }, [id]);
 
+    // Getting the data
     const getData = async () => {
         try {
                 const docRef = doc(db, "podcasts", id);
@@ -43,11 +48,11 @@ const PodcastDetails = () => {
                     setPodcast(docSnap.data());                   
                 } else {
                     console.log('Document does not exist');
-                    toast.error('Something went wrong')
+                    showErrorToast('Podcast does not exist', 1000)
                 }
             } catch (error) {
                 console.log(error);
-                toast.error('Something went wrong')
+                showErrorToast('Something went wrong', 1000)
             }
         };
 
@@ -129,7 +134,6 @@ const PodcastDetails = () => {
                                         key={episod.id}
                                         bannerImg={episod.bannerImg}
                                         title={episod.episodTitle}
-                                        setClickedCardId={setCurrentAudio}
                                         audioInfoObj={episod}
                                         id={episod.id}
                                     /> 
@@ -149,7 +153,7 @@ const PodcastDetails = () => {
                                         type='button'
                                         action={handleCreateEpisode}
                                         btnText='Create First Episode'
-                                        disabled={false}
+                                        disabled={isLoading}
                                         />
                                         </div>
                                 }

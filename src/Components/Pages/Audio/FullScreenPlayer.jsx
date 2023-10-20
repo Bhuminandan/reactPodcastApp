@@ -7,7 +7,10 @@ import GenresDisplay from '../../Common/GenresDisplay';
 const FullScreenPlayer = () => {
 
 
+  // Getting the current audio
   const currentAudio = useSelector((state) => state.audioSlice.currentAudio);
+
+  // Getting elements from the current audio by destructuring
   const { bannerImg, audioFile, episodDesc, episodTitle, favoriteGenres} = currentAudio;
 
   return (

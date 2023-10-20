@@ -6,11 +6,12 @@ import WaveAnimation from '../Common/WaveAnimation'
 
 const Home = () => {
 
+    // Getting navigate ref
     const navigate = useNavigate();
+
 
   return (
     <>
-    
     <div className=' max-w-screen-xl min-h-screen m-auto flex items-start md:pt-40 pb-72 justify-between md:flex-nowrap flex-wrap-reverse pt-5 gap-5 md:gap-20 px-5 '>
         <div className='md:w-1/2 w-full text-xl md:text-4xl text-gray-700 font-bold md:p-20'>
             <pre>
@@ -33,7 +34,8 @@ const Home = () => {
         </div>
     </div>
     <div className='w-screen bottom-0 md:flex fixed hidden'>
-    <WaveAnimation/>
+        {/* Wave animation */}
+        <WaveAnimation/>
     </div>
     </>
   )

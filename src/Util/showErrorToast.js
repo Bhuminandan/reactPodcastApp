@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-
+// common redursable toast showwer function for errors
 const showErrorToast = (message, autoCloseTime = 1000) => {
 
     toast.error(message, {

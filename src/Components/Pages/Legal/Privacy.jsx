@@ -2,6 +2,7 @@ import React from 'react'
 import PageHeader from '../../Common/PageHeader'
 
 const Privacy = () => {
+  // Privacy policy page
   return (
     <>
     <div className="max-w-screen-lg m-auto min-h-screen p-8 text-green-200">

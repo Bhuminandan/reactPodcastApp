@@ -12,6 +12,9 @@ import timeCalculator from '../../../Util/tImeCalculator';
 import { useNavigate } from 'react-router-dom';
 import emptyill from '../../../data/illustrations/emptyIll.svg'
 import PageHeader from '../../Common/PageHeader';
+import showSuccessToast from '../../../Util/showSuccessToast';
+import { clearUser } from '../../../slices/userSlice';
+import showErrorToast from '../../../Util/showErrorToast';
 
 const Profile = () => {
 
@@ -20,14 +23,15 @@ const Profile = () => {
   const podcasts = useSelector((state) => state.podcastsSlice)
   const favorites = useSelector((state) => state.userSlice.user?.favorites)
 
-  console.log(favorites);
-  
+  // Getting the navigation and dispath refs
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   // State for the user's Podcasts
   const [userPodcasts, setUserPodcasts] = useState([])
 
+
+  // Getting the user's Podcasts, to handle relaod not showind user podcasts condition
   useEffect(() => {
     try {
       onSnapshot(
@@ -51,6 +55,8 @@ const Profile = () => {
 
   // Getting the user's Podcasts
   useEffect(() => {
+
+    // Filtering the user's Podcasts to show
     if (podcasts && user) {
     const filteredPodcasts = podcasts.filter(podcast => podcast.createdBy === user.uid)
       setUserPodcasts(filteredPodcasts)
@@ -61,28 +67,27 @@ const Profile = () => {
   // Sign Out Function 
   const handleSignOut = async () => {
     try {
+
       await signOut(auth)
-      toast.success('Logged Out Successfully',{
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      })      
+      showSuccessToast('Signed Out', 1000)
+      // Removing the user from the redux
+      dispatch(clearUser())
+      // Navigating to the login page
       navigate('/login')
+
     } catch (error) {
-      toast.error('Something went wrong')
+
+      showErrorToast('Something went wrong', 1000)
     }
     
   }
 
+  // Edit Profile click handler
   const handleEditProfile = () => {
     navigate(`/user/${user.uid}/edit-profile`)
   }
 
+  // Favorites click handler
   const handleFavoritesClick = () => {
     navigate('/user/favorites')
   }

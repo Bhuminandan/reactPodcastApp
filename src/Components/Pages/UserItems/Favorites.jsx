@@ -8,10 +8,9 @@ import emptyIll from '../../../data/illustrations/emptyIll.svg'
 const Favorites = () => {
 
 
+    // Getting the user favorites and podcasts from the redux
     const favorites  = useSelector((state) => state.userSlice.user.favorites)
     const podcasts = useSelector((state) => state.podcastsSlice)
-    console.log(favorites);
-    console.log(podcasts);
 
 
   return (

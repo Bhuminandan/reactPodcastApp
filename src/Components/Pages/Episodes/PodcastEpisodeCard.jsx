@@ -5,10 +5,13 @@ import { setCurrentAudio, setIsPlayerVisible, setCurrentPlayer, toggleIsPlaying 
 import {TbPlayerStop} from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 
-const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj, id}) => {
+const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj}) => {
 
+  // Getting the navigate and dispatch refs
   const navigate = useNavigate()
   const dispatch = useDispatch();
+
+  // Getting the states
   const isPlayerVisible = useSelector((state) => state.audioSlice.isPlayerVisible);
   const currentAudio = useSelector((state) => state.audioSlice.currentAudio);
   const isPlaying = useSelector((state) => state.audioSlice.isPlaying);
@@ -18,7 +21,7 @@ const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj, id}) => {
     // Checking if someone is clicking the same audio card again
     if(currentAudio.id === audioInfoObj.id) return;
 
-
+    // Setting the current audio
     dispatch(setCurrentAudio(audioInfoObj));
 
     // Checking if someone is clicking the same audio card again making the isPlaying false to toggle icon
@@ -40,9 +43,13 @@ const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj, id}) => {
 
   const handleFullScreenClick = () => {
 
+    // Setting the current audio
     dispatch(setCurrentAudio(audioInfoObj))
+    // Setting the current player as fullscreen
     dispatch(setCurrentPlayer('fullscreen'))
+    // navigating to the full screen
     navigate(`/user/podcasts/episode/${currentAudio.id}`)
+
   }
 
   return (

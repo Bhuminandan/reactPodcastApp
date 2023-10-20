@@ -3,7 +3,6 @@ import CommonInput from '../../Common/CommonInput'
 import createPodcast from '../../../data/illustrations/podcastIconCreate.svg'
 import FileInput from '../../Common/FileInput'
 import CustomeBtn from '../../Common/CustomeBtn'
-import { toast } from 'react-toastify'
 import {storage, auth, db} from '../../../firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { addDoc, collection } from 'firebase/firestore'
@@ -12,13 +11,18 @@ import genres from '../../../data/staticData/genres'
 import GenreButtons from '../../Common/GenreButtons'
 import { useSelector } from 'react-redux'
 import PageHeader from '../../Common/PageHeader'
+import showErrorToast from '../../../Util/showErrorToast'
+import showSuccessToast from '../../../Util/showSuccessToast'
 
 const CreatePodcast = () => {
 
+    // Getting the user details
     const user = useSelector((state) => state.userSlice.user)
 
+    // States navigate ref
     const navigate = useNavigate()
 
+    // States for the podcast form
     const [podcastName, setPodcastName] = useState('')
     const [podcastDesc, setPodcastDesc] = useState('')
     const [displayImg, setDisplayImg] = useState('')
@@ -28,92 +32,56 @@ const CreatePodcast = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [favoriteGenres, setFavoriteGenres] = useState([])
 
-    const handleCreatePodcastSubmit = async (e) => {
-        e.preventDefault()
 
+    // handler for form submit
+    const handleCreatePodcastSubmit = async (e) => {
+
+        // Validations
+        e.preventDefault()
 
         if (!podcastName || !podcastDesc || !displayImg || !bannerImg) {
 
-            toast.error('Please fill all the fields', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            showErrorToast('Please fill all the fields', 1000)
             return;
         }
 
-        if (favoriteGenres.length < 3) {
-            toast.error('Please select at least 3 genres', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+        if (favoriteGenres.length < 1) {
+            showErrorToast('Please select at least 1 genre', 1000)
             return
         }
 
-        toast.success('Podcast Creating...', {
-            position: "top-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        })
+        showSuccessToast('Podcast Creating, Please Wait...', 10000)
+
         setIsLoading(true)
 
-
+        // Double checking if all the fields are filled
         if(podcastName && podcastDesc && displayImg && bannerImg && favoriteGenres.length !== 0) {
-
+            
             try {
 
-                  // uploading banner image to firebase storage
+            // uploading banner image to firebase storage
             const bannerImgRef = ref(storage, `podcasts/${auth.currentUser.uid}/${Date.now()}`);
             const uploadedBanner = await uploadBytes(bannerImgRef, bannerImg);
 
 
-            toast.success('Banner Image Uploaded', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+            showSuccessToast('Banner Image Uploadeding, Please Wait', 10000)
+
+            // Getting the banner image url
             const bannerImgUrl = await getDownloadURL(uploadedBanner.ref);
 
-
-            // uploading banner image to firebase storage
+            // uploading display image to firebase storage
             const displayImgRef = ref(storage, `podcasts/${auth.currentUser.uid}/${Date.now()}`);
             const uploadedDisplay = await uploadBytes(displayImgRef, displayImg);
-            console.log(uploadedDisplay);
-            toast.success('Display Image Uploaded', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+
+
+            // Getting the display image url
+            showSuccessToast('Display Image Uploadeding, Please Wait', 10000)
+
+            // Getting the display image url
             const displayImgUrl = await getDownloadURL(uploadedDisplay.ref);
 
 
-
+            // creating the podcast object
             const podCastdata = {
                 title: podcastName,
                 desc: podcastDesc,
@@ -128,33 +96,15 @@ const CreatePodcast = () => {
             // creating podcast doc
             await addDoc(collection(db, 'podcasts'), podCastdata)
 
-            toast.success('Podcast Created', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+            showSuccessToast('Podcast Created', 1000)
                 
             } catch (error) {
                 console.log(error.message);
-                toast.error(error.message, {
-                    position: "top-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                })                
+                showErrorToast('Something went wrong', 1000)               
             }
           
         } else {
-            toast.error('Something went wrong')
+            showErrorToast('something went wrong', 1000)
         };
 
         setIsLoading(false)
@@ -170,14 +120,18 @@ const CreatePodcast = () => {
     const handleGenereClick = (e) => {
         if (e) {     
             const genre = e.target.innerText;
+            // checking if the genre is already added
             if(favoriteGenres.includes(genre)) {
+                // removing the genre
                 setFavoriteGenres(favoriteGenres.filter(favGenre => favGenre !== genre))
             } else {
+                // adding the genre
                 setFavoriteGenres([...favoriteGenres, genre])
             }
         }
     }
 
+    // Because of the async nature of useEffect we are using this UseEffect
     useEffect(() => {
         handleGenereClick(); 
     }, [favoriteGenres])

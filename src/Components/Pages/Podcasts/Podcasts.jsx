@@ -14,11 +14,16 @@ import Search from '../../Common/Search'
 const Podcasts = () => {
   
   const dispatch = useDispatch()
+
+  // Getting the podcasts
   const podcasts = useSelector((state) => state.podcastsSlice)
   const favorites = useSelector((state) => state.userSlice.user?.favorites)
+
+  // States for the search and loading
   const [isLoading, setIsLoading] = useState(false);
   const [filteredPodcasts, setFilteredProducts] = useState(podcasts)
 
+  // Filter useEffect
   useEffect(() => {
     setFilteredProducts(podcasts)
   }, [podcasts])
@@ -44,6 +49,7 @@ const Podcasts = () => {
     }
 
   }, [dispatch])
+
 
   useEffect(() => {}, [favorites, podcasts, filteredPodcasts])
 

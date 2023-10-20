@@ -1,75 +1,69 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import CommonInput from '../../Common/CommonInput';
 import FileInput from '../../Common/FileInput';
 import CustomeBtn from '../../Common/CustomeBtn';
-import { toast } from 'react-toastify';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../../../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { setUser } from '../../../slices/userSlice';
+import showErrorToast from '../../../Util/showErrorToast';
+import showSuccessToast from '../../../Util/showSuccessToast';
 
 const EditProfilePage = () => {
 
+    // Getting the navigation and dispatch refs
     const navigate = useNavigate();
     const dispath = useDispatch();
 
+    // States for the profile edit 
     const [newName, setNewName] = useState('');
     const [profilePic, setProfilePic] = useState('');
     const [isFileSelected, setIsFileSelected] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
-    const userId = useParams()
-    console.log(userId);
+    // Getting the user details
     const user = useSelector(state => state.userSlice.user)
-    console.log(user);
 
+    // Handler for cancel button
     const handleCancle = async () => {
         navigate(-1)
     }
 
+    // Handler for submit button
     const handleUpdateProfile = async () => {
 
         setIsLoading(true)
 
+        // Validations
         if (!newName) {
-            toast.error('Please fill new name', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+            showErrorToast('Please enter new name before submitting', 2000)
             setIsLoading(false)
             return
         }
 
         try {
-            
+            // Checking if the new profile pic is selected or nor before its optional
+
+            // if the new profile pic is selected then upload it
             if (isFileSelected) {
+
+                // Uploading the new profile pic and getting url refrence
                 const newProfileImgRef = ref(storage, `users/${user?.uid}/profilePic`)
                 const uploadedProfile = await uploadBytes(newProfileImgRef, profilePic);
                 const profilePicUrl = await getDownloadURL(uploadedProfile.ref);
-                toast.success('uploading new profile...', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                })
 
+
+                showSuccessToast('Profile Pic Updated', 1000)
+
+                // Updating the user details in the db
                 await updateDoc(doc(db, "users", user?.uid), {
                     name: newName,
                     profilePicUrl: profilePicUrl
                 })
 
+                // Updating the redux state
                 dispath(setUser({
                     ...user,
                     name: newName,
@@ -77,32 +71,30 @@ const EditProfilePage = () => {
                 }))
 
             } else {
+
+
+                // If not selected then just update the name
+
+                // Updating the user details in the db
                 await updateDoc(doc(db, "users", user?.uid), {
                     name: newName
                 })
+
+                // Updating the redux state
                 dispath(setUser({
                     ...user,
                     name: newName,
                 }))
             }
 
-            toast.success('Profile updating...', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
+            showSuccessToast('Profile Updated Successfully', 1000)
 
             setIsLoading(false)
             navigate(-1)
            
         } catch (error) {
             console.log(error.message);
-            toast.error('Something went wrong')
+            showErrorToast('Something went wrong', 1000)
             setIsLoading(false)
         }
             
