@@ -18,35 +18,36 @@ const Profile = () => {
   // Getting the user details and podcasts from the redux
   const user = useSelector((state) => state.userSlice.user)
   const podcasts = useSelector((state) => state.podcastsSlice)
-  
+  const favorites = useSelector((state) => state.userSlice.user?.favorites)
+
+  console.log(favorites);
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-
   // State for the user's Podcasts
   const [userPodcasts, setUserPodcasts] = useState([])
 
-
   useEffect(() => {
-    if (!podcasts) {
     try {
       onSnapshot(
         query(collection(db, 'podcasts')),
         (querySnapshot) => {
           const podcastsData = []
           querySnapshot.forEach((doc) => {
-            console.log(doc.data());
             podcastsData.push({ ...doc.data(), id: doc.id })
           })
           dispatch(setPodcasts(podcastsData))
         }
       )
     } catch (error) {
+      console.log(error);
       toast.error('Something went wrong')
     }
-  }
-  }, [dispatch, podcasts])
+
+  }, [dispatch])
+
+
 
   // Getting the user's Podcasts
   useEffect(() => {
@@ -153,6 +154,7 @@ const Profile = () => {
                         id={podcast.id}
                         creatorName={podcast?.creatorName}
                         createdOn={timeCalculator(podcast?.createdOn)}
+                        isUserLiked={favorites?.includes(podcast.id)}
                       />
                     )
                   })

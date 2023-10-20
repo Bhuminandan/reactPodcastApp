@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase'
-import { doc } from 'firebase/firestore'
+import { collection, doc, query } from 'firebase/firestore'
 import { db } from './firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './slices/userSlice'
@@ -16,6 +16,8 @@ import Privacy from './Components/Pages/Legal/Privacy';
 import Home from './Components/Landing/Home';
 import Navbar from './Components/Common/Navbar';
 import Favorites from './Components/Pages/UserItems/Favorites';
+import { setPodcasts } from './slices/podcastsSlice';
+
 
 // Importing compoents lazyly
 const Signup = lazy(() => import('./Components/Auth/Signup'))
@@ -31,6 +33,7 @@ const CreatePodcast = lazy(() => import('./Components/Pages/Podcasts/CreatePodca
 const Podcasts = lazy(() => import('./Components/Pages/Podcasts/Podcasts'));
 const ForgotPass = lazy(() => import('./Components/Auth/ForgotPass'));
 const FullScreenPlayer = lazy(() => import('./Components/Pages/Audio/FullScreenPlayer'));
+const GenresPage = lazy(() => import('./Genres/GenresPage'));
 
 
 
@@ -42,6 +45,7 @@ function App() {
   // Getting the player info
   const isPlayerVisible = useSelector((state) => state.audioSlice.isPlayerVisible)
   const currentPlayer = useSelector((state) => state.audioSlice.currentPlayer)
+  const podcasts = useSelector((state) => state.podcastsSlice)
 
 
   // Checking if the user is logged in
@@ -66,7 +70,7 @@ function App() {
               dispatch(setUser({
                 name: userData.name,
                 email: userData.email,
-                profilePic: userData.profilePic,
+                profilePicUrl: userData.profilePic,
                 uid: userData.uid,
                 favorites: userData.favorites
               }));
@@ -124,6 +128,7 @@ function App() {
           {/* Nested Routing of authenticated pages */}
           <Route element={<PrivateRoutes />} >
             <Route path="/user" element={<UserNav />} >
+              <Route path='genres/:genre' element={<GenresPage />} />
               <Route path="" element={<Podcasts />} />
               <Route path=':id/edit-profile' element={<EditProfilePage />} />
               <Route path="podcasts" element={<Podcasts />} />

@@ -4,6 +4,7 @@ import podcastsSlice from "./slices/podcastsSlice";
 import podcastsEpisodesSlice from "./slices/podcastsEpisodesSlice";
 import audioSlice from "./slices/audioSlice";
 import commonSlices from "./slices/commonSlices";
+import genreSlice from "./slices/genreSlice";
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         podcastEpisodes: podcastsEpisodesSlice,
         audioSlice: audioSlice,
         commonSlice: commonSlices,
+        genreSlice: genreSlice,
     }
 });
 

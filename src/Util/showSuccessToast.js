@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 const showSuccessToast = (message, autoCloseTime = 1000) => {
 
     toast.success(message, {
-        position: "top-right",
-        autoCloseTime,
+        position: "top-center",
+        autoClose: autoCloseTime,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

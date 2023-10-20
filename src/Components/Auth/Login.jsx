@@ -36,9 +36,6 @@ const handleSubmit = (e) => {
     
   }
 
-  // signing up toast
-  showToast('❤ Opening doors for you...', 3000)
-
   
   // signing in with fire base
   const handleSignIn = async () => {
@@ -46,10 +43,11 @@ const handleSubmit = (e) => {
     setIsLoading(true)
 
     try {
+
       // Signing in with inbuilt signin firebase hook
         const userCredential = await signInWithEmailAndPassword( // signInWithEmailAndPassword is Inbuilt method of firebase
           auth,
-          email,
+          email, 
           password
         )
         const user = userCredential.user;     
@@ -67,6 +65,8 @@ const handleSubmit = (e) => {
           uid: userData.uid
         }))
 
+          // signing up toast
+          showToast('Welcome ❤ ...', 500)
 
         setIsLoading(false)
 
