@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../../slices/userSlice'
@@ -24,8 +24,52 @@ const PodcastCard = ({bannerImg, title, desc, id, creatorName, createdOn, isUser
   // Getting the dispatch ref
   const dispath = useDispatch();
 
+
+  // Updating the views function
+  const updateViews = async () => {
+  if (!user) {
+    return;
+  }
+
+  if (user.uid === id) {
+    return;
+  }
+
+  const todaysDate = new Date().toDateString(); // Get today's date in a suitable format
+
+  // Retrieve the current document data
+  const docRef = doc(db, 'podcasts', id);
+  const docSnapshot = await getDoc(docRef);
+
+  if (docSnapshot.exists()) {
+    const currentData = docSnapshot.data();
+    const viewsArray = currentData.views || [];
+
+
+    // Check if an entry for today's date already exists
+    const todayEntry = viewsArray.find((entry) => entry.date === todaysDate);
+
+    if (todayEntry) {
+      // If an entry for today's date exists, increment the views count
+      todayEntry.views++;
+    } else {
+      // If no entry for today's date exists, create a new entry
+      viewsArray.push({ date: todaysDate, views: 1 });
+    }
+
+    // Update the "views" field with the modified array
+    await setDoc(docRef, { views: viewsArray }, { merge: true });
+  } else {
+    // If the document doesn't exist, create it with an initial views array
+    await setDoc(docRef, { views: [{ date: todaysDate, views: 1 }] });
+  }
+};
+
   // On card click handler
   const handleCardClick = () => {
+
+    // Updating views
+    updateViews()
 
     // Navigating to user to the clicked podcast with id in the url
     navigate(`/user/podcasts/${id}`)

@@ -77,8 +77,6 @@ const Podcasts = () => {
                 {
                    filteredPodcasts.length !== 0 ? 
                    filteredPodcasts?.map((podcast) => {
-                    console.log(favorites);
-                    console.log(favorites.includes(podcast.id))
                     return (
                       <PodcastCard
                         key={podcast.id}

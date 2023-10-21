@@ -1,9 +1,8 @@
-import React,  { useState } from 'react'
+import React,  { useState, useEffect} from 'react'
+import ViewsChart from '../Charts/ViewsChart';
 import { useParams } from 'react-router-dom'
 import { auth, db } from '../../../firebase'; 
 import { collection, doc, getDoc, onSnapshot, query } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
 import CustomeBtn from '../../Common/CustomeBtn';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +16,7 @@ import showErrorToast from '../../../Util/showErrorToast';
 
 const PodcastDetails = () => {
 
+
     // Getting the navigation and dispatch refs
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -24,6 +24,7 @@ const PodcastDetails = () => {
     // States for the podcast
     const [podcast, setPodcast] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [viewsData, setViewsData] = useState([]);
 
     // Getting episodes list
     const podcastsEpisodes = useSelector((state) => state.podcastEpisodes)
@@ -41,46 +42,56 @@ const PodcastDetails = () => {
     // Getting the data
     const getData = async () => {
         try {
+                // Getting the doc ref
                 const docRef = doc(db, "podcasts", id);
                 const docSnap = await getDoc(docRef);
+
+                // Checking if the doc exists
                 if (docSnap.exists()) {
-                    console.log(docSnap.data()); 
-                    setPodcast(docSnap.data());                   
+                    setPodcast(docSnap.data());  
+                    setViewsData(docSnap.data().views) 
                 } else {
+                    // If the doc does not exist
                     console.log('Document does not exist');
                     showErrorToast('Podcast does not exist', 1000)
                 }
+
             } catch (error) {
                 console.log(error);
                 showErrorToast('Something went wrong', 1000)
             }
         };
 
+        // Handler for the create episode button
         const handleCreateEpisode = () => {
             navigate(`/user/podcasts/${id}/create`)
         }
-    
-      useEffect(() => {
-        setIsLoading(true);
-        try {
-          onSnapshot(
-            query(collection(db, 'podcasts', id, 'episods')),
-            (querySnapshot) => {
-              const podcastEpisodesData = []
-              querySnapshot.forEach((doc) => {
-                podcastEpisodesData.push({ ...doc.data(), id: doc.id })
-              })
-              dispatch(setPodcastEpisodes(podcastEpisodesData))
+
+
+        // Getting the episodes
+        useEffect(() => {
+            setIsLoading(true);
+            try {
+            onSnapshot(
+                query(collection(db, 'podcasts', id, 'episods')),
+                (querySnapshot) => {
+                const podcastEpisodesData = []
+                querySnapshot.forEach((doc) => {
+                    podcastEpisodesData.push({ ...doc.data(), id: doc.id })
+                })
+                dispatch(setPodcastEpisodes(podcastEpisodesData))
+                }
+            )
+            setIsLoading(false);
+            } catch (error) {
+            console.log(error);
+            showErrorToast('Something went wrong', 1000)
+            setIsLoading(false);
             }
-          )
-          setIsLoading(false);
-        } catch (error) {
-          console.log(error);
-          toast.error('Something went wrong')
-          setIsLoading(false);
-        }
-    
-      }, [dispatch])
+        
+        }, [dispatch])
+
+
 
   return (
     <div>
@@ -107,6 +118,7 @@ const PodcastDetails = () => {
                 className='mt-10 w-full h-72 object-cover opacity-80 rounded-2xl bg-black shadow-md shadow-teal-900'
                 src={podcast.displayImg} 
                 alt="banner" />
+
                 <h3 className='mt-10 text-xl font-bold'>Podcast info</h3>
                 <div className='mt-10 text-gray-400 w-full'>{podcast.desc}</div>
                 <h3 className='mt-10 text-xl font-bold'>Genres</h3>
@@ -160,6 +172,12 @@ const PodcastDetails = () => {
                             </div>
                         }
                     </div>
+                </div>
+                <h3 className='mt-10 text-xl font-bold mb-10'>Daily Views</h3>
+                <div className='bg-slate-950 rounded-2xl p-5 h-auto w-fit'>
+                    {
+                          viewsData &&  <ViewsChart data={viewsData}/>
+                    }
                 </div>
             </div>
         }

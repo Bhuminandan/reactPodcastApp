@@ -91,6 +91,7 @@ const CreatePodcast = () => {
                 createdBy: auth.currentUser.uid,
                 creatorName: user.name,
                 createdOn: Date.now(),
+                viewsArray: []
             }
 
             // creating podcast doc
@@ -188,7 +189,7 @@ const CreatePodcast = () => {
                 />
             </div>
             
-        <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Choose Genres (Min - 3)</h3>
+        <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Choose Genres (Min - 1)</h3>
         <div className='w-full flex items-start justify-start flex-wrap gap-2'>
           {
             genres.map((genre) => {

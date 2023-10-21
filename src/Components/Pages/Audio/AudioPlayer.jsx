@@ -19,6 +19,9 @@ const AudioPlayer = () => {
     const currentAudio = useSelector((state) => state.audioSlice.currentAudio)
     const isMuted = useSelector((state) => state.audioSlice.isMuted)
 
+    // States for the total audio duration, because with formated time duration the forward and backword dosnt work
+    const [totalAudioDuration, setTotalAudioDuration] = useState(0);
+
     // States for the audio
     const [audioDuration, setAudioDuration] = useState(0);
     const [currentDuration, setCurrentDuration] = useState(0);
@@ -32,6 +35,7 @@ const AudioPlayer = () => {
     const handleLoadMetaDeta = (e) => {
         setAudioDuration(timeFormatter(Number(e.target.duration)));
         setCurrentDuration(Number(e.target.currentTime));
+        setTotalAudioDuration(Number(e.target.duration));
     }
 
     // Handling the audio ended senario
@@ -87,7 +91,8 @@ const AudioPlayer = () => {
     // Setting the current time on forward click
     const handleForWardClick = (increasedTime) => {
         const updatedTime =  audioRef.current.currentTime + increasedTime;
-        if (updatedTime < audioDuration) {
+
+        if (updatedTime < totalAudioDuration) {
             audioRef.current.currentTime = updatedTime;
         }
     }
@@ -95,7 +100,7 @@ const AudioPlayer = () => {
     // Setting the current time on backward click
     const handleBackWardClick = (decreasedTime) => {
         const updatedTime =  audioRef.current.currentTime - decreasedTime;
-        if (updatedTime > 0 && updatedTime < audioDuration) {
+        if (updatedTime > 0 && updatedTime < totalAudioDuration) {
             audioRef.current.currentTime = updatedTime;
         }
     }

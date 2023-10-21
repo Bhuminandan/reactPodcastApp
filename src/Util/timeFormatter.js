@@ -19,7 +19,6 @@ function timeFormatter(seconds) {
     formattedTime += remainingSeconds.toString().padStart(2, '0');
 
 
-    console.log(formattedTime);
     return formattedTime;
 }
 
