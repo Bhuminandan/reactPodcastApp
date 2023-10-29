@@ -53,6 +53,36 @@ const Podcasts = () => {
 
   useEffect(() => {}, [favorites, podcasts, filteredPodcasts])
 
+
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+
+    console.log(podcasts);
+
+    
+    if (value === 'popular') {
+      let newArr = [...podcasts];
+      newArr.sort((a, b) => {
+        const totalViewsA = a.views.map((viewsObj) => viewsObj.views).reduce((acc, curr) => acc + curr, 0);
+        const totalViewsB = b.views.map((viewsObj) => viewsObj.views).reduce((acc, curr) => acc + curr, 0);
+        return totalViewsB - totalViewsA;
+      });
+      setFilteredProducts(newArr)
+
+  } else if (value === 'random') {
+
+      let newArr = [...podcasts];
+      setFilteredProducts(newArr)
+
+      setFilteredProducts(newArr)
+    } else if (value === 'newest') {
+      let newArr = [...podcasts]
+      setFilteredProducts(newArr.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn)))
+    } else if (value === 'oldest') {
+      let newArr = [...podcasts]
+      setFilteredProducts(newArr.sort((a, b) => new Date(a.createdOn) - new Date(b.createdOn)))
+    }
+  }
   
   if(isLoading) {
     return (
@@ -62,6 +92,8 @@ const Podcasts = () => {
     )
   }
 
+
+
   return (
    <div>
           <div className=' max-w-screen-xl m-auto min-h-screen flex flex-col items-start justify-start px-5 mb-40'>
@@ -69,9 +101,21 @@ const Podcasts = () => {
               searchFrom={podcasts}
               onChange={setFilteredProducts}
             />
-            <PageHeader 
-              title='Podcasts Collections'
-            />
+            <div className='w-full gap-10 flex-wrap md:flex-row flex-col text-2xl relative text-white flex items-start  md:items-center justify-start md:justify-between cursor-pointer mb-20'>
+            <div className='w-1/2'>
+              <PageHeader 
+                title='Podcast Collections'
+              />
+            </div>
+              <div className='w-32 h-32 text-sm absolute top-20 self-end left-0 md:right-1 mt-10'>
+                <select onChange={handleSortChange} name="trending" id="sort" className='w-full h-10 px-2 py-2 outline-none border rounded-lg bg-black '>
+                  <option value="popular">Popular</option>
+                  <option value="random">Randome</option>
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                </select>
+              </div>
+            </div>
             {
               <div className='flex flex-wrap items-start justify-start gap-4'>
                 {

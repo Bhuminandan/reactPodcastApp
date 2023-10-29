@@ -128,7 +128,7 @@ const handleSubmit = (e) => {
       </form>
 
       {/* Signup and forgot passward navigation links */}
-      <p>Don't have an account? <NavLink to={'/'} className={'text-teal-400 font-medium underline'}>Signup</NavLink></p>
+      <p>Don't have an account? <NavLink to={'/signup'} className={'text-teal-400 font-medium underline'}>Signup</NavLink></p>
       <p>Forgot Passward? <NavLink to={'/forgot-pass'} className={'text-teal-400 font-medium underline'}>Reset Passward</NavLink></p>
       
     </div>

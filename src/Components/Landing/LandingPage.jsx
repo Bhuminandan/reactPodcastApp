@@ -4,7 +4,7 @@ import CustomeBtn from '../Common/CustomeBtn'
 import { useNavigate } from 'react-router-dom'
 import WaveAnimation from '../Common/WaveAnimation'
 
-const Home = () => {
+const LandingPage = () => {
 
     // Getting navigate ref
     const navigate = useNavigate();
@@ -41,4 +41,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default LandingPage;

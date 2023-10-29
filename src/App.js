@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase'
-import { collection, doc, query } from 'firebase/firestore'
+import { doc } from 'firebase/firestore'
 import { db } from './firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './slices/userSlice'
@@ -13,10 +13,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import React, { Suspense, lazy } from 'react';
 import PageLoader from './Components/Common/PageLoader';
 import Privacy from './Components/Pages/Legal/Privacy';
-import Home from './Components/Landing/Home';
+import LandingPage from './Components/Landing/LandingPage';
 import Navbar from './Components/Common/Navbar';
 import Favorites from './Components/Pages/UserItems/Favorites';
-import { setPodcasts } from './slices/podcastsSlice';
 
 
 // Importing compoents lazyly
@@ -45,7 +44,6 @@ function App() {
   // Getting the player info
   const isPlayerVisible = useSelector((state) => state.audioSlice.isPlayerVisible)
   const currentPlayer = useSelector((state) => state.audioSlice.currentPlayer)
-  const podcasts = useSelector((state) => state.podcastsSlice)
 
 
   // Checking if the user is logged in
@@ -118,7 +116,7 @@ function App() {
 
           {/* Nested Routing of unauthenticated pages */}
           <Route path='/' element={<Navbar />} >
-            <Route path='' element={<Home />} />
+            <Route path='' element={<LandingPage />} />
             <Route path="signup" element={<Signup />} />
             <Route path="login" element={<Login />} />
             <Route path='forgot-pass' element={<ForgotPass />} />
