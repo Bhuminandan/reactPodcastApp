@@ -7,7 +7,7 @@ import showSuccessToast from '../../Util/showSuccessToast'
 import showErrorToast from '../../Util/showErrorToast'
 import { useDispatch } from 'react-redux'
 import {setUser} from '../../slices/userSlice.js'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, storage } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { doc, setDoc } from 'firebase/firestore';
@@ -15,6 +15,8 @@ import { db } from '../../firebase';
 import FileInput from '../Common/FileInput';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import PageHeader from '../Common/PageHeader';
+import { BsFillShieldLockFill } from 'react-icons/bs';
+import { FaGoogle } from 'react-icons/fa';
 
 
 const Signup = () => {
@@ -150,6 +152,57 @@ const Signup = () => {
   handleSignUp();
 }
 
+  const handleSignUpWithGoogle = async() => {
+
+    console.log('clicked');
+    setIsLoading(true)
+
+    const provider = new GoogleAuthProvider();
+
+    try {
+
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      console.log(user.photoURL);
+
+      // Saving user details
+      await setDoc(doc(db, 'users', user.uid), {
+        name: user.displayName,
+        email: user.email,
+        profilePic: user.photoURL,
+        uid: user.uid,
+        favorites: []
+      })
+      
+      // setting user details in redux
+      dispatch(setUser({
+        name: user.displayName,
+        email: user.email,
+        profilePicUrl: user.photoURL,
+        uid: user.uid,
+        favorites: []
+      }))
+      
+      setIsLoading(false)
+      showSuccessToast('Account created successfully', 3000)
+
+      // redirecting user to profile on successful signup
+      navigate('/user/podcasts')
+      
+    } catch (error) {
+      
+      if (error.code === 'auth/email-already-in-use') {
+        showErrorToast('User exists, try to Login... >>>', 3000)
+        setTimeout(() => {
+          navigate('/login')
+        }, 3000);
+      }
+
+    }
+
+  }
+
   return (
     <>
     <div className='mt-10 pb-20 flex flex-col items-center justify-center gap-4 text-slate-600 w-72 md:w-1/2 m-auto h-auto'>
@@ -230,12 +283,23 @@ const Signup = () => {
         />
 
         <CustomeBtn
-        btnText={'Signup'}
+        btnText={'Signup With Email'}
         type={'submit'}
         disabled={isLoading}
         />
 
       </form>
+
+      {/* Signup with Google */}
+      <div className='flex flex-col items-center justify-center gap-2 w-full -mt-6'>
+        <CustomeBtn
+          btnText={'Sinup With Google'}
+          type={'submit'}
+          action={handleSignUpWithGoogle}
+          disabled={isLoading}
+          />
+          <p className='text-sm flex items-center gap-2'>Secured <BsFillShieldLockFill/><FaGoogle/></p>
+      </div>
 
       {/* Privacy Policy */}
       <div className='flex items-center justify-center gap-4'>

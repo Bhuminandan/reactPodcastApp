@@ -10,7 +10,7 @@ import PodcastCard from './PodcastCard'
 import timeCalculator from '../../../Util/tImeCalculator'
 import PageHeader from '../../Common/PageHeader'
 import Search from '../../Common/Search'
-
+import { motion } from 'framer-motion'
 const Podcasts = () => {
   
   const dispatch = useDispatch()
@@ -107,20 +107,24 @@ const Podcasts = () => {
                 title='Podcast Collections'
               />
             </div>
-              <div className='w-32 h-32 text-sm absolute top-20 self-end left-0 md:right-1 mt-10'>
-                <select onChange={handleSortChange} name="trending" id="sort" className='w-full h-10 px-2 py-2 outline-none border rounded-lg bg-black '>
+              <motion.div 
+              initial={{ opacity: 0}}
+              animate={{ opacity: 1}}
+              transition={{ duration: 0.5, delay: 0.2, ease: 'easeInOut' }}
+              className='w-32 h-32 text-sm absolute top-20 self-end left-0 md:right-1 mt-10'>
+                <select onChange={handleSortChange} name="random" id="sort" className='w-full h-10 px-2 py-2 outline-none border rounded-lg bg-black cursor-pointer'>
                   <option value="popular">Popular</option>
                   <option value="random">Randome</option>
                   <option value="newest">Newest</option>
                   <option value="oldest">Oldest</option>
                 </select>
-              </div>
+              </motion.div>
             </div>
             {
               <div className='flex flex-wrap items-start justify-start gap-4'>
                 {
                    filteredPodcasts.length !== 0 ? 
-                   filteredPodcasts?.map((podcast) => {
+                   filteredPodcasts?.map((podcast, index) => {
                     return (
                       <PodcastCard
                         key={podcast.id}
@@ -131,6 +135,7 @@ const Podcasts = () => {
                         creatorName={podcast?.creatorName}
                         createdOn={timeCalculator(podcast.createdOn)}
                         isUserLiked={favorites?.includes(podcast.id)}
+                        index={index}
                         />
                     )
                   })
@@ -140,7 +145,7 @@ const Podcasts = () => {
                   </div>
                 }
               </div>
-            }
+              }
           </div>
    </div>
   )

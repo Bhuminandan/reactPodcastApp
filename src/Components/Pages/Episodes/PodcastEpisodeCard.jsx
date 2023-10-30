@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentAudio, setIsPlayerVisible, setCurrentPlayer, toggleIsPlaying } from '../../../slices/audioSlice'
 import {TbPlayerStop} from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj}) => {
 
@@ -53,7 +54,11 @@ const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj}) => {
   }
 
   return (
-    <div className='md:w-96 md:h-72 w-full h-96 border-gray-900 border-2 bg-zinc-950 hover:bg-zinc-900 transition-all duration-300 cursor-pointer flex flex-col items-start justify-between p-5 rounded-xl overflow-hidden'>
+    <motion.div 
+    initial={{ y: 50}}
+    animate={{ y: 0}}
+    transition={{ duration: 0.5}}
+    className='md:w-96 md:h-72 w-full h-96 border-gray-900 border-2 bg-zinc-950 hover:bg-zinc-900 transition-all duration-300 cursor-pointer flex flex-col items-start justify-between p-5 rounded-xl overflow-hidden'>
         <img 
         className='w-full h-3/4 object-cover rounded-lg mb-2'
         src={bannerImg} alt="episode" />
@@ -71,7 +76,7 @@ const PodcastEpisodeCard = ({bannerImg, title, audioInfoObj}) => {
         </div>
         </div>
         
-    </div>
+    </motion.div>
   )
 }
 

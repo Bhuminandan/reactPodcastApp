@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 
 const FileInput = ({accept, onChange, value , id, isFileSelected , setIsFileSelected}) => {
 
@@ -17,7 +18,11 @@ const FileInput = ({accept, onChange, value , id, isFileSelected , setIsFileSele
     }
 
   return (
-    <>
+    <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{duration: 0.5}}
+    >
     <label 
         htmlFor={id}
         className={`text-green-400 whitespace-nowrap bg-transparent cursor-pointer px-6 py-2 w-full outline-none border border-teal-900 rounded-xl ${isFileSelected ? ` border-white border-2 text-amber-100 font-bold` : ''}`}
@@ -34,7 +39,7 @@ const FileInput = ({accept, onChange, value , id, isFileSelected , setIsFileSele
         className='hidden'
         type="file" 
     />
-    </>
+    </motion.div>
   )
 }
 

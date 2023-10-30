@@ -185,16 +185,16 @@ const CreatePodcast = () => {
                 id={'bannerImg'}
                 setIsFileSelected={setIsBannerSelected}
                 isFileSelected={isBannerSelected}
-
                 />
             </div>
             
         <h3 className='text-[16px] mt-2 md:mt-5 font-medium text-teal-100 mb-2'>Choose Genres (Min - 1)</h3>
         <div className='w-full flex items-start justify-start flex-wrap gap-2'>
           {
-            genres.map((genre) => {
+            genres.map((genre, index) => {
               return (
                 <GenreButtons
+                index={index}
                 key={genre.id}
                 title={genre.title}
                 onClick={handleGenereClick}

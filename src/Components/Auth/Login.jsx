@@ -4,7 +4,7 @@ import CustomeBtn from '../Common/CustomeBtn'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../../slices/userSlice'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
@@ -12,6 +12,8 @@ import { db } from '../../firebase'
 import PageHeader from '../Common/PageHeader'
 import showErrorToast from '../../Util/showErrorToast'
 import showToast from '../../Util/showToast'
+import { BsFillShieldLockFill } from 'react-icons/bs'
+import { FaGoogle } from 'react-icons/fa'
 
 const Login = () => {
 
@@ -90,6 +92,47 @@ const handleSubmit = (e) => {
 }
 
 
+  // handle sign in with google
+  const handleSignInWithGoogle = async() => {
+    setIsLoading(true)
+    try {
+      
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider)
+      const user = result.user;
+
+      // Saving user details
+      const userDoc = await getDoc(doc(db, 'users', user.uid))
+      const userData = userDoc.data();
+
+      // Saving the user details in the redux on successful signin
+      dispatch(setUser({
+        name: userData.name,
+        email: userData.email,
+        profilePicUrl:userData.profilePic,
+        favorites: userData.favorites,
+        uid: userData.uid
+      }))
+
+      // signing up toast
+      showToast('Welcome ❤ ...', 500)
+
+      setIsLoading(false)
+
+      // redirecting user to podcasts page on successful signin
+      navigate('/user/podcasts')
+
+
+      
+    } catch (error) {
+      showErrorToast('Something went wrong', 2000)
+      setIsLoading(false)
+    }
+
+    setIsLoading(false)
+  }
+
+
   return (
     <>
     <div className='flex flex-col items-center justify-center gap-4 text-slate-600 w-72 md:w-96 m-auto mt-10'>
@@ -121,11 +164,22 @@ const handleSubmit = (e) => {
           />
           
           <CustomeBtn 
-          btnText={'Login'}
+          btnText={'Sign In With Email'}
           type={'submit'}
           disabled={isLoading}
           />
       </form>
+
+       {/* Signup with Google */}
+       <div className='flex flex-col items-center justify-center gap-2 w-full -mt-8'>
+        <CustomeBtn
+          btnText={'Sinup With Google'}
+          type={'submit'}
+          action={handleSignInWithGoogle}
+          disabled={isLoading}
+          />
+          <p className='text-sm flex items-center gap-2'>Secured <BsFillShieldLockFill/><FaGoogle/></p>
+      </div>
 
       {/* Signup and forgot passward navigation links */}
       <p>Don't have an account? <NavLink to={'/signup'} className={'text-teal-400 font-medium underline'}>Signup</NavLink></p>

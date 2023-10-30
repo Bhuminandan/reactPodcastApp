@@ -3,6 +3,7 @@ import playlistCover from '../../data/Playlist cover 🫶.jpg'
 import CustomeBtn from '../Common/CustomeBtn'
 import { useNavigate } from 'react-router-dom'
 import WaveAnimation from '../Common/WaveAnimation'
+import { motion } from 'framer-motion'
 
 const LandingPage = () => {
 
@@ -28,7 +29,15 @@ const LandingPage = () => {
             </div>
         </div>
         <div className='md:w-1/2 w-full'>
-            <img 
+            <motion.img 
+            initial={{ y: -20 }}
+            animate={{ y: 20 }}
+            transition={{ 
+                type: 'smooth',
+                repeatType: 'mirror',
+                repeat: Infinity, 
+                duration: 4
+            }}
             className='rounded-2xl'
             src={playlistCover} alt="beach day" />
         </div>

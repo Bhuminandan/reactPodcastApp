@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { motion } from 'framer-motion';
 
 const Search = ({searchFrom, onChange}) => {
 
@@ -24,14 +25,18 @@ const Search = ({searchFrom, onChange}) => {
     };
 
   return (
-    <div className='w-full mt-10 text-white'>
+    <motion.div 
+    initial={{ opacity: 0}}
+    animate={{ opacity: 1}}
+    transition={{ duration: 0.5}}
+    className='w-full mt-10 text-white'>
     <input 
         className='w-full bg-transparent py-2 px-10 outline-none border-2 border-gray-500 rounded-2xl'
         placeholder='search for collection'
         value={searchedTerm}
         onChange={handleSearch}
     />
-  </div>
+  </motion.div>
   )
 }
 

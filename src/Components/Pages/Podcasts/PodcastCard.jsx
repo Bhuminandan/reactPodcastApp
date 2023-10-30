@@ -6,9 +6,10 @@ import { db } from '../../../firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../../slices/userSlice'
 import showSuccessToast from '../../../Util/showSuccessToast'
+import { motion } from 'framer-motion'
 
 
-const PodcastCard = ({bannerImg, title, desc, id, creatorName, createdOn, isUserLiked}) => {
+const PodcastCard = ({bannerImg, title, desc, id, creatorName, createdOn, isUserLiked, index}) => {
 
   // Getting the navigate
   const navigate = useNavigate()
@@ -122,8 +123,13 @@ const PodcastCard = ({bannerImg, title, desc, id, creatorName, createdOn, isUser
 }
 
   return (
-    <div className='flex flex-col items-start justify-between rounded-lg border-2 border-gray-900 bg-zinc-950 w-full h-auto md:h-[520px] md:w-[400px] cursor-pointer hover:bg-zinc-900 transition-all duration-300 ease-in-out text-white overflow-hidden py-4'
-      onClick={handleCardClick}
+    <motion.div className='flex flex-col items-start justify-between rounded-lg border-2 border-gray-900 bg-zinc-950 w-full h-auto md:h-[520px] md:w-[400px] cursor-pointer hover:bg-zinc-900 transition-all duration-300 ease-in-out text-white overflow-hidden py-4'
+    initial={{ opacity: 0, translateY: 50 }}
+    animate={{ opacity: 1, translateY: 0 }}
+    transition={{ duration: 1, delay: index * 0.2, ease: 'easeInOut' }}
+
+
+    onClick={handleCardClick}
     >
       <div className='w-full h-full rounded-lg p-5 flex flex-col items-start justify-between'>
         <img 
@@ -167,7 +173,7 @@ const PodcastCard = ({bannerImg, title, desc, id, creatorName, createdOn, isUser
           }
           </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

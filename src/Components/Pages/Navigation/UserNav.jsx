@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleMobNavOpen } from '../../../slices/commonSlices'
 import { IoChevronBack } from 'react-icons/io5'
 import Footer from './Footer'
+import { motion } from 'framer-motion'
 
 const UserNav = () => {
 
@@ -32,11 +33,14 @@ const UserNav = () => {
         currentUrl === '/user/podcasts' ?
           <></>
           :
-          <div
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
             onClick={handleBackClick}
             className='text-white ml-14 text-xl hidden lg:block cursor-pointer md:text-3xl absolute top-24 hover:bg-slate-900 p-4 rounded-full transition-all duration-300'>
             <IoChevronBack />
-          </div>
+          </motion.div>
       }
       <div className='w-screen flex md:hidden relative py-4 bg-transparent px-5 md:px-20 items-center justify-between gap-4 text-teal-100 border-b border-slate-800 mb-3 z-1000'>
         <div className='flex items-center justify-between gap-4 z-40' >

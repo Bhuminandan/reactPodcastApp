@@ -1,9 +1,14 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 const PageHeader = ({title, mt = 10, mb = 10}) => {
   return (
     // page header
-    <h1 className={`md:text-4xl text-2xl text-gray-600 font-bold mt-${mt} mb-${mb}`}>{title}</h1>
+    <motion.h1
+    initial={{ translateX: -50}}
+    animate={{ translateX: 0}}
+    transition={{ duration: 0.5}}
+    className={`md:text-4xl text-2xl text-gray-600 font-bold mt-${mt} mb-${mb}`}>{title}</motion.h1>
   )
 }
 

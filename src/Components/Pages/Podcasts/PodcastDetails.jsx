@@ -125,8 +125,9 @@ const PodcastDetails = () => {
                 <div className='flex items-start justify-start flex-wrap gap-2 mt-5'>
                {
 
-                podcast.genres?.length !== 0 && podcast.genres?.map((genre) => {
+                podcast.genres?.length !== 0 && podcast.genres?.map((genre, index) => {
                     return <GenresDisplay
+                        index={index}
                         key={nanoid()}
                         genreText={genre}
                     />
@@ -174,7 +175,7 @@ const PodcastDetails = () => {
                     </div>
                 </div>
                 <h3 className='mt-10 text-xl font-bold mb-10'>Daily Views</h3>
-                <div className='bg-slate-950 rounded-2xl p-5 h-auto w-fit'>
+                <div className='bg-slate-950 rounded-2xl p-5 h-auto w-full'>
                     {
                           viewsData &&  <ViewsChart data={viewsData}/>
                     }

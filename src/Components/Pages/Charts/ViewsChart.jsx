@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
 function ChartComponent({ data }) {
+
+
   const chartRef = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
-    const labels = data.map(item => item.date.substring(0, 10));
+    const labels = data.map(item => item.date.substring(3, 10));
     const views = data.map(item => item.views);
 
     if (chartInstance) {
@@ -44,8 +46,8 @@ function ChartComponent({ data }) {
   }, [data]);
 
   return (
-    <div>
-      <canvas ref={chartRef} />
+    <div className='flex flex-col items-center justify-center w-full'>
+      <canvas ref={chartRef} className='w-full' />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 
 // Time formatter for the small audio player
 function timeFormatter(seconds) {
+
+    //  Convert seconds to hours, minutes, and remaining seconds
     seconds = Math.floor(seconds);
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -18,6 +20,7 @@ function timeFormatter(seconds) {
 
     formattedTime += remainingSeconds.toString().padStart(2, '0');
 
+    console.log(formattedTime);
 
     return formattedTime;
 }
