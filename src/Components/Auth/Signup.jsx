@@ -7,16 +7,17 @@ import showSuccessToast from '../../Util/showSuccessToast'
 import showErrorToast from '../../Util/showErrorToast'
 import { useDispatch } from 'react-redux'
 import {setUser} from '../../slices/userSlice.js'
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getRedirectResult, signInWithRedirect } from 'firebase/auth';
 import { auth, storage } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import FileInput from '../Common/FileInput';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import PageHeader from '../Common/PageHeader';
 import { BsFillShieldLockFill } from 'react-icons/bs';
 import { FaGoogle } from 'react-icons/fa';
+import { useEffect } from 'react'
 
 
 const Signup = () => {
@@ -36,6 +37,40 @@ const Signup = () => {
   const [isPassWordVisible, setIsPasswordVisible] = useState(false)
   const [isConfirmPassWordVisible, setIsConfirmPasswordVisible] = useState(false)
   const [isPrivacyAgreeChecked, setIsPrivacyAgreeChecked] = useState(false)
+
+
+  const createDoc = async (user, profilePicUrl) => {
+
+    setIsLoading(true)
+    
+    // Checking if the userDoc already exists
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+    if (userDoc.exists()) {
+      setIsLoading(false)
+      return
+    }
+          // Saving user details
+          await setDoc(doc(db, 'users', user.uid), {
+            name: fullName,
+            email: user.email,
+            profilePic: profilePicUrl,
+            uid: user.uid,
+            favorites: []
+          })
+          
+          // setting user details in redux
+          dispatch(setUser({
+            name: fullName,
+            email: user.email,
+            profilePicUrl: profilePicUrl,
+            uid: user.uid,
+            favorites: []
+          }))
+          
+          setIsLoading(false)
+          showSuccessToast('Signned up successfully', 3000)
+  }
  
   
   // handle submit function
@@ -92,25 +127,10 @@ const Signup = () => {
           const profileImageRef = ref(storage, `users/${user.uid}/profilePic`);
           const uploadedProfile = await uploadBytes(profileImageRef, profilePic);
           const profilePicUrl = await getDownloadURL(uploadedProfile.ref);
-          
-          // Saving user details
-          await setDoc(doc(db, 'users', user.uid), {
-            name: fullName,
-            email: user.email,
-            profilePic: profilePicUrl,
-            uid: user.uid,
-            favorites: []
-          })
-          
-          // setting user details in redux
-          dispatch(setUser({
-            name: fullName,
-            email: user.email,
-            profilePicUrl: profilePicUrl,
-            uid: user.uid,
-            favorites: []
-          }))
-          
+       
+          // saving user details
+          createDoc(user, profilePicUrl)
+
           setIsLoading(false)
           showSuccessToast('Account created successfully', 3000)
 
@@ -154,42 +174,15 @@ const Signup = () => {
 
   const handleSignUpWithGoogle = async() => {
 
-    console.log('clicked');
     setIsLoading(true)
-
-    const provider = new GoogleAuthProvider();
 
     try {
 
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
+    const provider = new GoogleAuthProvider();
+    await signInWithRedirect(auth, provider);
 
-      console.log(user.photoURL);
+    setIsLoading(false)
 
-      // Saving user details
-      await setDoc(doc(db, 'users', user.uid), {
-        name: user.displayName,
-        email: user.email,
-        profilePic: user.photoURL,
-        uid: user.uid,
-        favorites: []
-      })
-      
-      // setting user details in redux
-      dispatch(setUser({
-        name: user.displayName,
-        email: user.email,
-        profilePicUrl: user.photoURL,
-        uid: user.uid,
-        favorites: []
-      }))
-      
-      setIsLoading(false)
-      showSuccessToast('Account created successfully', 3000)
-
-      // redirecting user to profile on successful signup
-      navigate('/user/podcasts')
-      
     } catch (error) {
       
       if (error.code === 'auth/email-already-in-use') {
@@ -197,11 +190,38 @@ const Signup = () => {
         setTimeout(() => {
           navigate('/login')
         }, 3000);
+        setIsLoading(false)
       }
 
     }
 
+
   }
+
+  useEffect(() => {
+    const getUserInfoAfterSignin = async () => {
+      try {
+
+          const result = await getRedirectResult(auth)
+          if (result) {
+            const user = result.user;
+            createDoc(user, user.photoURL)
+            setIsLoading(false)
+
+            showToast('Sining you in, Please wait...', 8000)
+
+            navigate('/user/podcasts')
+          } 
+          
+      } catch (error) {
+            console.log(error) 
+            showErrorToast('Something went wrong', 2000)
+            setIsLoading(false)
+      }
+    }
+    setIsLoading(false)
+    getUserInfoAfterSignin()
+  }, [])
 
   return (
     <>

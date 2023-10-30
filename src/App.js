@@ -116,7 +116,7 @@ function App() {
 
           {/* Nested Routing of unauthenticated pages */}
           <Route path='/' element={<Navbar />} >
-            <Route path='' element={<LandingPage />} />
+            <Route index element={<LandingPage />} />
             <Route path="signup" element={<Signup />} />
             <Route path="login" element={<Login />} />
             <Route path='forgot-pass' element={<ForgotPass />} />

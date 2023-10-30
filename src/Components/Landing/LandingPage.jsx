@@ -30,8 +30,8 @@ const LandingPage = () => {
         </div>
         <div className='md:w-1/2 w-full'>
             <motion.img 
-            initial={{ y: -20 }}
-            animate={{ y: 20 }}
+            initial={{ y: -10 }}
+            animate={{ y: 10 }}
             transition={{ 
                 type: 'smooth',
                 repeatType: 'mirror',
