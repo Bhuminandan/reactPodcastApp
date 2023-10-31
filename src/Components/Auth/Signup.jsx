@@ -41,18 +41,22 @@ const Signup = () => {
 
   const createDoc = async (user, profilePicUrl) => {
 
+    console.log(user, profilePicUrl);
+
     setIsLoading(true)
     
     // Checking if the userDoc already exists
     const userDoc = await getDoc(doc(db, 'users', user.uid));
 
-    if (userDoc.exists()) {
-      setIsLoading(false)
-      return
-    }
+          if (userDoc.exists()) {
+            setIsLoading(false)
+            return
+          }
+
+
           // Saving user details
           await setDoc(doc(db, 'users', user.uid), {
-            name: fullName,
+            name: fullName || user.displayName,
             email: user.email,
             profilePic: profilePicUrl,
             uid: user.uid,
@@ -61,7 +65,7 @@ const Signup = () => {
           
           // setting user details in redux
           dispatch(setUser({
-            name: fullName,
+            name: fullName || user.displayName,
             email: user.email,
             profilePicUrl: profilePicUrl,
             uid: user.uid,

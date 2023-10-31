@@ -14,7 +14,6 @@ import showErrorToast from '../../Util/showErrorToast'
 import showToast from '../../Util/showToast'
 import { BsFillShieldLockFill } from 'react-icons/bs'
 import { FaGoogle } from 'react-icons/fa'
-import showSuccessToast from '../../Util/showSuccessToast'
 
 const Login = () => {
 
@@ -29,6 +28,9 @@ const Login = () => {
 
 
   const updateUserData = async (userData) => {
+
+    console.log(userData);
+
         // Saving the user details in the redux on successful signin
         dispatch(setUser({
           name: userData.name,
@@ -113,7 +115,6 @@ const Login = () => {
 
 
     } catch (error) {
-      console.log(error.message);
       showErrorToast('Something went wrong', 2000)
       setIsLoading(false)
     }
