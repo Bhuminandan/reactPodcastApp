@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import PageHeader from '../Components/Common/PageHeader'
+import PageHeader from '../../Common/PageHeader'
 import { useDispatch, useSelector } from 'react-redux'
-import PodcastCard from '../Components/Pages/Podcasts/PodcastCard'
-import emptyIll from '../data/illustrations/emptyIll.svg'
+import PodcastCard from '../Podcasts/PodcastCard'
+import emptyIll from '../../../data/illustrations/emptyIll.svg'
 import { collection, onSnapshot, query } from 'firebase/firestore'
-import { db } from '../firebase'
-import { setPodcasts } from '../slices/podcastsSlice'
+import { db } from '../../../firebase'
+import { setPodcasts } from '../../../slices/podcastsSlice'
 import { toast } from 'react-toastify'
 
 const GenresPage = () => {

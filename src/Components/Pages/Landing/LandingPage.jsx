@@ -1,8 +1,8 @@
 import React from 'react'
-import playlistCover from '../../data/Playlist cover 🫶.jpg'
-import CustomeBtn from '../Common/CustomeBtn'
+import playlistCover from '../../../data/Playlist cover 🫶.jpg'
+import CustomeBtn from '../../Common/CustomeBtn'
 import { useNavigate } from 'react-router-dom'
-import WaveAnimation from '../Common/WaveAnimation'
+import WaveAnimation from '../../Common/WaveAnimation'
 import { motion } from 'framer-motion'
 
 const LandingPage = () => {

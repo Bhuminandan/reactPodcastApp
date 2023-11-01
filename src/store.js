@@ -6,7 +6,11 @@ import audioSlice from "./slices/audioSlice";
 import commonSlices from "./slices/commonSlices";
 import genreSlice from "./slices/genreSlice";
 
+
+// Creating the store
 const store = configureStore({
+
+    // Configuring the store
     reducer: {
         userSlice: userSlice,
         podcastsSlice: podcastsSlice,

@@ -56,10 +56,10 @@ const Podcasts = () => {
 
   const handleSortChange = (e) => {
     const value = e.target.value;
-
-    console.log(podcasts);
-
     
+    // Filtering the podcast
+
+    // If the value is popular
     if (value === 'popular') {
       let newArr = [...podcasts];
       newArr.sort((a, b) => {
@@ -69,19 +69,22 @@ const Podcasts = () => {
       });
       setFilteredProducts(newArr)
 
-  } else if (value === 'random') {
+      // If the value is normal
+      } else if (value === 'normal') {
 
-      let newArr = [...podcasts];
+        // Normal list
+        let newArr = [...podcasts];
+
+        // Shuffling the array with randome 
       setFilteredProducts(newArr)
 
-      setFilteredProducts(newArr)
-    } else if (value === 'newest') {
-      let newArr = [...podcasts]
-      setFilteredProducts(newArr.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn)))
-    } else if (value === 'oldest') {
-      let newArr = [...podcasts]
-      setFilteredProducts(newArr.sort((a, b) => new Date(a.createdOn) - new Date(b.createdOn)))
-    }
+      } else if (value === 'newest') {
+        let newArr = [...podcasts]
+        setFilteredProducts(newArr.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn)))
+      } else if (value === 'oldest') {
+        let newArr = [...podcasts]
+        setFilteredProducts(newArr.sort((a, b) => new Date(a.createdOn) - new Date(b.createdOn)))
+      }
   }
   
   if(isLoading) {
@@ -114,7 +117,7 @@ const Podcasts = () => {
               className='w-32 h-32 text-sm absolute top-20 self-end left-0 md:right-1 mt-10'>
                 <select onChange={handleSortChange} name="random" id="sort" className='w-full h-10 px-2 py-2 outline-none border rounded-lg bg-black cursor-pointer'>
                   <option value="popular">Popular</option>
-                  <option value="random">Randome</option>
+                  <option value="normal">Normal</option>
                   <option value="newest">Newest</option>
                   <option value="oldest">Oldest</option>
                 </select>

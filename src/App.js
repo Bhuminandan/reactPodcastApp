@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import React, { Suspense, lazy } from 'react';
 import PageLoader from './Components/Common/PageLoader';
 import Privacy from './Components/Pages/Legal/Privacy';
-import LandingPage from './Components/Landing/LandingPage';
+import LandingPage from './Components/Pages/Landing/LandingPage';
 import Navbar from './Components/Common/Navbar';
 import Favorites from './Components/Pages/UserItems/Favorites';
 
@@ -32,7 +32,7 @@ const CreatePodcast = lazy(() => import('./Components/Pages/Podcasts/CreatePodca
 const Podcasts = lazy(() => import('./Components/Pages/Podcasts/Podcasts'));
 const ForgotPass = lazy(() => import('./Components/Auth/ForgotPass'));
 const FullScreenPlayer = lazy(() => import('./Components/Pages/Audio/FullScreenPlayer'));
-const GenresPage = lazy(() => import('./Genres/GenresPage'));
+const GenresPage = lazy(() => import('./Components/Pages/Genres/GenresPage'));
 
 
 

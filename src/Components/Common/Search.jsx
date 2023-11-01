@@ -21,7 +21,7 @@ const Search = ({searchFrom, onChange}) => {
             podcast.title.toLowerCase().includes(searchTerm)
           );
           onChange(updatedPodcastsList);
-        }, 300);
+        }, 800);
     };
 
   return (

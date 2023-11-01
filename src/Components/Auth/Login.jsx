@@ -14,6 +14,7 @@ import showErrorToast from '../../Util/showErrorToast'
 import showToast from '../../Util/showToast'
 import { BsFillShieldLockFill } from 'react-icons/bs'
 import { FaGoogle } from 'react-icons/fa'
+import showSuccessToast from '../../Util/showSuccessToast'
 
 const Login = () => {
 
@@ -28,8 +29,6 @@ const Login = () => {
 
 
   const updateUserData = async (userData) => {
-
-    console.log(userData);
 
         // Saving the user details in the redux on successful signin
         dispatch(setUser({
@@ -108,11 +107,12 @@ const Login = () => {
   // handle sign in with google
   const handleSignInWithGoogle = async () => {
     setIsLoading(true)
+    
     try {
-
       const provider = new GoogleAuthProvider();
       await signInWithRedirect(auth, provider)
 
+      setIsLoading(false)
 
     } catch (error) {
       showErrorToast('Something went wrong', 2000)
@@ -130,13 +130,16 @@ const Login = () => {
         const result = await getRedirectResult(auth)
         if (result) {
           const user = result.user;
+
           // Saving user details
           const userDoc = await getDoc(doc(db, 'users', user.uid))
           const userData = userDoc.data();
 
+          showSuccessToast('Welcome ❤ ...', 500)
+
           updateUserData(userData)
-          navigate('/user/podcasts')
           setIsLoading(false)
+          navigate('/user/podcasts')
         } 
       } catch (error) {
         console.log(error) 
