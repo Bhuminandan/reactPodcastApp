@@ -50,7 +50,7 @@ const CreatePodcast = () => {
             return
         }
 
-        showSuccessToast('Podcast Creating, Please Wait...', 10000)
+        showSuccessToast('Podcast Creating, Please Wait...', 3000)
 
         setIsLoading(true)
 
@@ -64,7 +64,7 @@ const CreatePodcast = () => {
             const uploadedBanner = await uploadBytes(bannerImgRef, bannerImg);
 
 
-            showSuccessToast('Banner Image Uploadeding, Please Wait', 10000)
+            showSuccessToast('Banner Image Uploadeding, Please Wait', 3000)
 
             // Getting the banner image url
             const bannerImgUrl = await getDownloadURL(uploadedBanner.ref);
@@ -75,7 +75,7 @@ const CreatePodcast = () => {
 
 
             // Getting the display image url
-            showSuccessToast('Display Image Uploadeding, Please Wait', 10000)
+            showSuccessToast('Display Image Uploadeding, Please Wait', 3000)
 
             // Getting the display image url
             const displayImgUrl = await getDownloadURL(uploadedDisplay.ref);

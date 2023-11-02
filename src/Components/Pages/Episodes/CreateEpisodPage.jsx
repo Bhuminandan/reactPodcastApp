@@ -181,7 +181,7 @@ const CreateEpisodPage = () => {
                 </div>
 
                 <div className='w-full'>
-                <h3 className='text-[16px] font-medium text-green-200 mb-5 mt-4'>Choose Genres (Min - 3)</h3>
+                <h3 className='text-[16px] font-medium text-green-200 mb-5 mt-4'>Choose Genres (Min - 1)</h3>
                 <div className='w-full flex items-start justify-start flex-wrap gap-2'>
                 {
                     genres.map((genre) => {

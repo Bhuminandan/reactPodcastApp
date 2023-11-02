@@ -12,6 +12,7 @@ import PodcastEpisodeCard from '../Episodes/PodcastEpisodeCard';
 import GenresDisplay from '../../Common/GenresDisplay';
 import { nanoid } from '@reduxjs/toolkit';
 import showErrorToast from '../../../Util/showErrorToast';
+import Modal from '../Modal/Modal';
 
 
 const PodcastDetails = () => {
@@ -25,6 +26,7 @@ const PodcastDetails = () => {
     const [podcast, setPodcast] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [viewsData, setViewsData] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     // Getting episodes list
     const podcastsEpisodes = useSelector((state) => state.podcastEpisodes)
@@ -91,10 +93,29 @@ const PodcastDetails = () => {
         
         }, [dispatch])
 
+        const handleEditPodcast = () => {
+            navigate(`/user/edit/${id}`)
+        }
+
+        const handleDeleteButton = () => {
+
+            setIsModalVisible(true)
+
+           
+        }
 
 
   return (
     <div>
+        {
+            isModalVisible && 
+            <div className='w-screen h-screen absolute'>
+                <Modal
+                setIsModalVisible={setIsModalVisible}
+                id={id}
+                />
+            </div>
+        }
         {
             <div className='max-w-screen-xl m-auto px-5 md:px-10 text-gray-500 rounded-2xl overflow-hidden'>
                 <div className='flex items-center justify-between flex-wrap gap-5'>
@@ -103,15 +124,33 @@ const PodcastDetails = () => {
                 {
                     // Showind the create podcast button only to the author of the podcast collection
                     podcast.createdBy === auth.currentUser.uid && 
+                    <div className='flex flex-wrap items-start justify-start gap-2'>
                         <div className='md:w-56'>
                         <CustomeBtn
-                        key={nanoid()}
-                        type='button'
-                        action={handleCreateEpisode}
-                        btnText='Create Episode'
-                        disabled={false}
+                            type='button'
+                            action={handleCreateEpisode}
+                            btnText='Create Episode'
+                            disabled={false}
                         />
                         </div>
+                        <div className='md:w-56'>
+                        <CustomeBtn
+                            type='button'
+                            action={handleEditPodcast}
+                            btnText='Edit Collection'
+                            disabled={false}
+                        />
+                        </div>
+
+                        <div className='md:w-32'>
+                            <CustomeBtn
+                                type='button'
+                                action={handleDeleteButton}
+                                btnText='Delete'
+                                disabled={false}
+                            />
+                        </div>
+                    </div>
                 }
                 </div>
                 <img 

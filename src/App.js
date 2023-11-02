@@ -16,6 +16,7 @@ import Privacy from './Components/Pages/Legal/Privacy';
 import LandingPage from './Components/Pages/Landing/LandingPage';
 import Navbar from './Components/Common/Navbar';
 import Favorites from './Components/Pages/UserItems/Favorites';
+import EditPodcast from './Components/Pages/EditPodcast/EditPodcast';
 
 
 // Importing compoents lazyly
@@ -130,6 +131,7 @@ function App() {
               <Route path="" element={<Podcasts />} />
               <Route path=':id/edit-profile' element={<EditProfilePage />} />
               <Route path="podcasts" element={<Podcasts />} />
+              <Route path="edit/:id" element={<EditPodcast />} />
               <Route path="podcasts/:id" element={<PodcastDetails />} />
               <Route path='podcasts/episode/:id' element={<FullScreenPlayer />} />
               <Route path="podcasts/:id/create" element={<CreateEpisodPage />} />

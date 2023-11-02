@@ -87,7 +87,6 @@ const Login = () => {
         navigate('/user/podcasts')
 
       } catch (error) {  // Handling the error gracefully
-        console.log(error.message);
         showErrorToast('Invalid email or password', 2000)
         setIsLoading(false)
       }
